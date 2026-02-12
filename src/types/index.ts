@@ -67,4 +67,15 @@ export interface Order {
     status: 'pending' | 'completed' | 'cancelled';
 }
 
+export type UserRole = 'admin' | 'user';
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  image?: string;
+}
+
 export type SortOption = 'newest' | 'price-asc' | 'price-desc' | 'popularity';
+
