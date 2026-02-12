@@ -49,7 +49,7 @@ export function Header() {
         <div className="flex items-center flex-none">
           <Link href="/" className="flex items-center">
             <FlamoraLogo
-              className="h-14 w-56 md:h-16 md:w-64"
+              className="h-14 w-14 md:h-16 md:w-16"
               imageClassName="object-left"
             />
           </Link>
