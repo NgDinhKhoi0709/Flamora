@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { HeroSection } from "@/components/layout/HeroSection";
+import * as React from "react";
 import Link from "next/link";
 import { ArrowRight, Mail } from "lucide-react";
 
@@ -20,38 +22,7 @@ export default async function Home() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative w-full h-[60vh] md:h-[80vh] text-white">
-        {heroImage && (
-          <Image
-            src={heroImage.imageUrl}
-            alt={heroImage.description}
-            fill
-            priority
-            className="object-cover"
-            data-ai-hint={heroImage.imageHint}
-          />
-        )}
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="relative h-full flex flex-col items-center justify-center text-center p-4">
-          <div className="mb-3">
-            <span className="text-white font-headline text-lg md:text-2xl lg:text-3xl font-medium tracking-tight">
-              Flamora
-            </span>
-          </div>
-          <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl font-medium tracking-tight">
-            A softer kind of light
-          </h1>
-          <p className="mt-4 max-w-xl text-lg md:text-xl text-gray-200">
-            Khám phá hương thơm tinh tế, thắp lên không gian sống ấm áp và dịu
-            dàng.
-          </p>
-          <Button asChild className="mt-8" size="lg">
-            <Link href="/san-pham">
-              Mua sắm ngay <ArrowRight />
-            </Link>
-          </Button>
-        </div>
-      </section>
+      <HeroSection heroImage={heroImage} />
 
       {/* Storytelling Section */}
       <section className="py-16 lg:py-24 bg-background">

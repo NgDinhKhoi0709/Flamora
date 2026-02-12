@@ -5,6 +5,9 @@ import {
 } from "@/data/mock-data";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import { ProductGallery } from "@/components/products/ProductGallery";
+import { motion as motionTokens } from "@/lib/motion";
+import * as React from "react";
 import { ProductCard } from "@/components/products/product-card";
 import { AddToCartForm } from "@/components/products/add-to-cart-form";
 import { Badge } from "@/components/ui/badge";
@@ -41,30 +44,8 @@ export default async function ProductDetailPage({
       <div className="grid md:grid-cols-2 gap-12">
         {/* Product Gallery */}
         <div className="space-y-4">
-          <div className="aspect-square relative rounded-lg overflow-hidden shadow-lg">
-            <Image
-              src={product.images[0]}
-              alt={product.name}
-              fill
-              priority
-              className="object-cover"
-            />
-          </div>
-          <div className="grid grid-cols-4 gap-4">
-            {product.images.map((img, index) => (
-              <div
-                key={index}
-                className="aspect-square relative rounded-md overflow-hidden border-2 border-transparent hover:border-primary cursor-pointer"
-              >
-                <Image
-                  src={img}
-                  alt={`${product.name} - ảnh ${index + 1}`}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            ))}
-          </div>
+          {/* Gallery with crossfade/slide */}
+          <ProductGallery images={product.images} name={product.name} />
         </div>
 
         {/* Product Info */}
@@ -106,29 +87,35 @@ export default async function ProductDetailPage({
           </div>
 
           <div className="mt-12">
-            <Accordion type="single" collapsible defaultValue="item-1">
+            <Accordion type="multiple" defaultValue={["item-1"]}>
               <AccordionItem value="item-1">
                 <AccordionTrigger className="text-lg font-medium">
                   Mô tả sản phẩm
                 </AccordionTrigger>
-                <AccordionContent className="prose text-muted-foreground">
-                  {product.description}
+                <AccordionContent>
+                  <div className="prose text-muted-foreground">
+                    {product.description}
+                  </div>
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-2">
                 <AccordionTrigger className="text-lg font-medium">
                   Hướng dẫn sử dụng
                 </AccordionTrigger>
-                <AccordionContent className="prose text-muted-foreground">
-                  {product.usageInstructions}
+                <AccordionContent>
+                  <div className="prose text-muted-foreground">
+                    {product.usageInstructions}
+                  </div>
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-3">
                 <AccordionTrigger className="text-lg font-medium">
                   Vận chuyển & Đổi trả
                 </AccordionTrigger>
-                <AccordionContent className="prose text-muted-foreground">
-                  {product.shippingReturns}
+                <AccordionContent>
+                  <div className="prose text-muted-foreground">
+                    {product.shippingReturns}
+                  </div>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>

@@ -15,6 +15,8 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { CartIcon } from "@/components/cart/cart-icon";
 import { usePathname } from "next/navigation";
+import { motion } from "@/lib/motion";
+import * as React from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
