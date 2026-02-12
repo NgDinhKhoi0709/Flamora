@@ -13,20 +13,23 @@ import { Separator } from "@/components/ui/separator";
 import { SheetClose } from "@/components/ui/sheet";
 
 export function CartSheetContent() {
-  const { items, totalPrice, totalItems, updateQuantity, removeItem } = useCart();
+  const { items, totalPrice, totalItems, updateQuantity, removeItem } =
+    useCart();
 
   if (totalItems === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-full text-center">
         <ShoppingBag className="h-16 w-16 text-muted-foreground" />
-        <h3 className="mt-4 text-lg font-medium">Giỏ hàng của bạn đang trống</h3>
+        <h3 className="mt-4 text-lg font-medium">
+          Giỏ hàng của bạn đang trống
+        </h3>
         <p className="mt-2 text-sm text-muted-foreground">
           Hãy bắt đầu mua sắm để thêm sản phẩm vào đây.
         </p>
         <SheetClose asChild>
-            <Button asChild className="mt-6">
-                <Link href="/shop">Tiếp tục mua sắm</Link>
-            </Button>
+          <Button asChild className="mt-6">
+            <Link href="/san-pham">Tiếp tục mua sắm</Link>
+          </Button>
         </SheetClose>
       </div>
     );
@@ -52,11 +55,17 @@ export function CartSheetContent() {
                 <div>
                   <div className="flex justify-between text-base font-medium text-foreground">
                     <h3>
-                      <Link href={`/shop/${item.productSlug}`}>{item.productName}</Link>
+                      <Link href={`/san-pham/${item.productSlug}`}>
+                        {item.productName}
+                      </Link>
                     </h3>
-                    <p className="ml-4">{formatPrice(item.unitPrice * item.quantity)}</p>
+                    <p className="ml-4">
+                      {formatPrice(item.unitPrice * item.quantity)}
+                    </p>
                   </div>
-                  <p className="mt-1 text-sm text-muted-foreground">{item.scent.name}</p>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {item.scent.name}
+                  </p>
                   <p className="mt-1 text-sm text-muted-foreground flex items-center">
                     Màu: {item.color.name}
                     <span
@@ -67,22 +76,39 @@ export function CartSheetContent() {
                 </div>
                 <div className="flex flex-1 items-end justify-between text-sm">
                   <div className="flex items-center border border-input rounded-md">
-                    <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => updateQuantity(item.id, item.quantity - 1)}>
-                        <Minus className="h-4 w-4" />
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8"
+                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                    >
+                      <Minus className="h-4 w-4" />
                     </Button>
                     <Input
-                        type="number"
-                        value={item.quantity}
-                        onChange={(e) => updateQuantity(item.id, parseInt(e.target.value) || 1)}
-                        className="h-8 w-12 border-0 text-center"
+                      type="number"
+                      value={item.quantity}
+                      onChange={(e) =>
+                        updateQuantity(item.id, parseInt(e.target.value) || 1)
+                      }
+                      className="h-8 w-12 border-0 text-center"
                     />
-                    <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => updateQuantity(item.id, item.quantity + 1)}>
-                        <Plus className="h-4 w-4" />
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8"
+                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                    >
+                      <Plus className="h-4 w-4" />
                     </Button>
                   </div>
 
                   <div className="flex">
-                    <Button variant="ghost" type="button" className="text-muted-foreground hover:text-accent" onClick={() => removeItem(item.id)}>
+                    <Button
+                      variant="ghost"
+                      type="button"
+                      className="text-muted-foreground hover:text-accent"
+                      onClick={() => removeItem(item.id)}
+                    >
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>
@@ -101,24 +127,22 @@ export function CartSheetContent() {
           Phí vận chuyển sẽ được tính ở bước thanh toán.
         </p>
         <div className="mt-6">
-            <SheetClose asChild>
-                <Button asChild size="lg" className="w-full">
-                    <Link href="/checkout">
-                    Thanh toán
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                </Button>
-            </SheetClose>
+          <SheetClose asChild>
+            <Button asChild size="lg" className="w-full">
+              <Link href="/checkout">
+                Thanh toán
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </SheetClose>
         </div>
         <div className="mt-4 flex justify-center text-center text-sm text-muted-foreground">
           <p>
-            hoặc{' '}
+            hoặc{" "}
             <SheetClose asChild>
-                <Button variant="link" className="p-0">
-                    <Link href="/cart">
-                        Xem giỏ hàng chi tiết
-                    </Link>
-                </Button>
+              <Button variant="link" className="p-0">
+                <Link href="/cart">Xem giỏ hàng chi tiết</Link>
+              </Button>
             </SheetClose>
           </p>
         </div>

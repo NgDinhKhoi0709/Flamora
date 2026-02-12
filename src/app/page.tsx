@@ -46,7 +46,7 @@ export default async function Home() {
             dàng.
           </p>
           <Button asChild className="mt-8" size="lg">
-            <Link href="/shop">
+            <Link href="/san-pham">
               Mua sắm ngay <ArrowRight />
             </Link>
           </Button>
@@ -111,19 +111,30 @@ export default async function Home() {
                 key={category.id}
                 className="group block"
               >
-                <Card className="overflow-hidden transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1">
-                  <CardContent className="p-0">
-                    <div className="aspect-w-3 aspect-h-4 relative">
+                <Card className="overflow-hidden transition-all duration-300 group-hover:shadow-2xl group-hover:-translate-y-2 group-hover:scale-105">
+                  <CardContent className="p-0 relative">
+                    <div className="aspect-square relative overflow-hidden bg-gray-100">
                       <Image
-                        src={category.image}
+                        src={
+                          category.image ||
+                          "https://images.unsplash.com/photo-1643122966895-380f2a0fe570?auto=format&fit=crop&w=400&q=80"
+                        }
                         alt={`Danh mục ${category.name}`}
                         fill
-                        className="object-cover"
+                        className="object-cover transition-transform duration-500 group-hover:scale-110"
                         data-ai-hint="candle product"
                       />
+                      {/* Overlay hiệu ứng */}
+                      <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-60 transition-opacity duration-500" />
+                      {/* Text nổi lên khi hover */}
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        <span className="text-white text-2xl font-headline font-semibold drop-shadow-lg text-center px-2">
+                          {category.name}
+                        </span>
+                      </div>
                     </div>
                     <div className="p-6">
-                      <h3 className="font-headline text-xl font-medium">
+                      <h3 className="font-headline text-xl font-medium group-hover:text-primary transition-colors duration-300">
                         {category.name}
                       </h3>
                     </div>
@@ -150,7 +161,7 @@ export default async function Home() {
             ))}
           </div>
           <Button asChild size="lg" className="mt-12">
-            <Link href="/shop?sort=popularity">Xem tất cả</Link>
+            <Link href="/san-pham?sort=popularity">Xem tất cả</Link>
           </Button>
         </div>
       </section>

@@ -13,14 +13,15 @@ import { Separator } from "@/components/ui/separator";
 import { useIsHydrated } from "@/hooks/use-is-hydrated";
 
 export default function CartPage() {
-  const { items, totalPrice, totalItems, updateQuantity, removeItem } = useCart();
+  const { items, totalPrice, totalItems, updateQuantity, removeItem } =
+    useCart();
   const isHydrated = useIsHydrated();
 
   if (!isHydrated) {
     return (
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
-            <p>Đang tải giỏ hàng...</p>
-        </div>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
+        <p>Đang tải giỏ hàng...</p>
+      </div>
     );
   }
 
@@ -32,7 +33,7 @@ export default function CartPage() {
           Hãy bắt đầu mua sắm để tìm những sản phẩm ưng ý.
         </p>
         <Button asChild size="lg" className="mt-8">
-          <Link href="/shop">Bắt đầu mua sắm</Link>
+          <Link href="/san-pham">Bắt đầu mua sắm</Link>
         </Button>
       </div>
     );
@@ -41,7 +42,9 @@ export default function CartPage() {
   return (
     <div className="bg-secondary/50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h1 className="text-4xl font-headline text-center mb-12">Giỏ hàng của bạn</h1>
+        <h1 className="text-4xl font-headline text-center mb-12">
+          Giỏ hàng của bạn
+        </h1>
         <div className="grid lg:grid-cols-3 lg:gap-12">
           <div className="lg:col-span-2">
             <Card>
@@ -61,33 +64,68 @@ export default function CartPage() {
                       <div className="ml-0 mt-4 sm:mt-0 sm:ml-4 flex flex-1 flex-col">
                         <div>
                           <div className="flex justify-between text-base font-medium text-foreground">
-                            <h3><Link href={`/shop/${item.productSlug}`}>{item.productName}</Link></h3>
-                            <p className="ml-4">{formatPrice(item.unitPrice * item.quantity)}</p>
+                            <h3>
+                              <Link href={`/san-pham/${item.productSlug}`}>
+                                {item.productName}
+                              </Link>
+                            </h3>
+                            <p className="ml-4">
+                              {formatPrice(item.unitPrice * item.quantity)}
+                            </p>
                           </div>
-                          <p className="mt-1 text-sm text-muted-foreground">{item.scent.name}</p>
+                          <p className="mt-1 text-sm text-muted-foreground">
+                            {item.scent.name}
+                          </p>
                           <p className="mt-1 text-sm text-muted-foreground flex items-center">
                             Màu: {item.color.name}
-                            <span className="ml-2 h-4 w-4 rounded-full border" style={{ backgroundColor: item.color.hex }} />
+                            <span
+                              className="ml-2 h-4 w-4 rounded-full border"
+                              style={{ backgroundColor: item.color.hex }}
+                            />
                           </p>
                         </div>
                         <div className="flex flex-1 items-end justify-between text-sm mt-4">
-                            <div className="flex items-center border border-input rounded-md">
-                                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => updateQuantity(item.id, item.quantity - 1)}>
-                                    <Minus className="h-4 w-4" />
-                                </Button>
-                                <Input
-                                    type="number"
-                                    value={item.quantity}
-                                    min={1}
-                                    onChange={(e) => updateQuantity(item.id, parseInt(e.target.value) || 1)}
-                                    className="h-8 w-12 border-0 text-center"
-                                />
-                                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => updateQuantity(item.id, item.quantity + 1)}>
-                                    <Plus className="h-4 w-4" />
-                                </Button>
-                            </div>
+                          <div className="flex items-center border border-input rounded-md">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8"
+                              onClick={() =>
+                                updateQuantity(item.id, item.quantity - 1)
+                              }
+                            >
+                              <Minus className="h-4 w-4" />
+                            </Button>
+                            <Input
+                              type="number"
+                              value={item.quantity}
+                              min={1}
+                              onChange={(e) =>
+                                updateQuantity(
+                                  item.id,
+                                  parseInt(e.target.value) || 1,
+                                )
+                              }
+                              className="h-8 w-12 border-0 text-center"
+                            />
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8"
+                              onClick={() =>
+                                updateQuantity(item.id, item.quantity + 1)
+                              }
+                            >
+                              <Plus className="h-4 w-4" />
+                            </Button>
+                          </div>
                           <div className="flex">
-                            <Button variant="ghost" type="button" className="text-muted-foreground hover:text-accent" onClick={() => removeItem(item.id)}>
+                            <Button
+                              variant="ghost"
+                              type="button"
+                              className="text-muted-foreground hover:text-accent"
+                              onClick={() => removeItem(item.id)}
+                            >
                               <Trash2 className="h-4 w-4 mr-1" /> Xóa
                             </Button>
                           </div>
@@ -103,7 +141,9 @@ export default function CartPage() {
           <div className="lg:col-span-1 mt-8 lg:mt-0">
             <Card className="sticky top-24">
               <CardHeader>
-                <CardTitle className="font-headline text-2xl">Tóm tắt đơn hàng</CardTitle>
+                <CardTitle className="font-headline text-2xl">
+                  Tóm tắt đơn hàng
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex justify-between text-muted-foreground">

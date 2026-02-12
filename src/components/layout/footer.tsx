@@ -50,12 +50,12 @@ export function Footer() {
                       href="/about"
                       className="text-base text-muted-foreground hover:text-foreground"
                     >
-                      Câu chuyện
+                      Giới thiệu
                     </Link>
                   </li>
                   <li>
                     <Link
-                      href="/shop"
+                      href="/san-pham"
                       className="text-base text-muted-foreground hover:text-foreground"
                     >
                       Sản phẩm

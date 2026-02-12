@@ -26,10 +26,10 @@ import {
 
 const navLinks = [
   { href: "/", label: "Trang chủ" },
-  { href: "/shop", label: "Cửa hàng" },
-  { href: "/category/nen-hu-tron", label: "Nến thơm" },
-  { href: "/category/phu-kien-qua-tang", label: "Quà tặng" },
-  { href: "/about", label: "Câu chuyện" },
+  { href: "/san-pham", label: "Sản phẩm" },
+  { href: "/sale", label: "Sale" },
+  { href: "/blog", label: "Blog" },
+  { href: "/about", label: "Giới thiệu" },
 ];
 
 export function Header() {
@@ -38,8 +38,10 @@ export function Header() {
   const pathname = usePathname();
 
   const isActive = (href: string) => {
+    if (!pathname) return false;
     if (href === "/") return pathname === "/";
-    return pathname?.startsWith(href);
+    // Active nếu pathname === href hoặc pathname bắt đầu bằng href + "/"
+    return pathname === href || pathname.startsWith(href + "/");
   };
 
   return (
@@ -56,12 +58,12 @@ export function Header() {
         </div>
 
         {/* Center: nav (hidden on small screens) */}
-        <nav className="hidden md:flex flex-1 justify-center items-center space-x-6 text-sm font-medium">
+        <nav className="hidden md:flex flex-1 justify-center items-center space-x-12 text-sm font-medium">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`relative transition-colors text-foreground/60 hover:text-[#BCA657] ${isActive(link.href) ? "text-[#BCA657]" : ""}`}
+              className={`relative transition-colors hover:text-[#BCA657] ${isActive(link.href) ? "text-[#BCA657]" : "text-foreground/60"}`}
             >
               <span
                 className={`relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:bg-[#BCA657] after:origin-left after:scale-x-0 after:transition-transform after:duration-300 after:ease-out ${isActive(link.href) ? "after:scale-x-100" : ""} hover:after:scale-x-100`}
@@ -89,7 +91,7 @@ export function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`relative text-lg font-medium transition-colors text-foreground/60 hover:text-[#BCA657] ${isActive(link.href) ? "text-[#BCA657]" : ""}`}
+                  className={`relative text-lg font-medium transition-colors hover:text-[#BCA657] ${isActive(link.href) ? "text-[#BCA657]" : "text-foreground/60"}`}
                 >
                   <span
                     className={`relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:bg-[#BCA657] after:origin-left after:scale-x-0 after:transition-transform after:duration-300 after:ease-out ${isActive(link.href) ? "after:scale-x-100" : ""} hover:after:scale-x-100`}
