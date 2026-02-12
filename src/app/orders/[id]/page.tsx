@@ -1,6 +1,6 @@
 "use client";
 
-import { useSearchParams, notFound } from "next/navigation";
+import { useSearchParams, notFound, useParams } from "next/navigation";
 import { useOrders } from "@/context/order-context";
 import { formatPrice } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,8 @@ import Image from "next/image";
 import { CheckCircle2 } from "lucide-react";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 
-export default function OrderDetailPage({ params }: { params: { id: string } }) {
+export default function OrderDetailPage() {
+    const params = useParams<{ id: string }>();
     const searchParams = useSearchParams();
     const isSuccess = searchParams.get('success') === 'true';
     const { getOrderById } = useOrders();
