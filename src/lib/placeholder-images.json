@@ -1,3 +1,136 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-image",
+      "description": "A soft focus image of a lit candle on a clean, minimalist surface with dried flowers nearby.",
+      "imageUrl": "https://images.unsplash.com/photo-1763888476830-75c71621c0bc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjYW5kbGUlMjBtaW5pbWFsaXN0fGVufDB8fHx8MTc3MDg2NTI5M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "candle minimalist"
+    },
+    {
+      "id": "story-image",
+      "description": "Hands carefully pouring wax into a candle jar in a bright, airy workshop.",
+      "imageUrl": "https://images.unsplash.com/photo-1622581124337-d295d080912b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y2FuZGxlJTIwbWFraW5nfGVufDB8fHx8MTc3MDgyMDgxMXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "candle making"
+    },
+    {
+      "id": "category-mini-jar",
+      "description": "A small glass candle jar.",
+      "imageUrl": "https://images.unsplash.com/photo-1643122966895-380f2a0fe570?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjYW5kbGUlMjBqYXJ8ZW58MHx8fHwxNzcwODY1MjkzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "candle jar"
+    },
+    {
+      "id": "category-round-jar",
+      "description": "A round ceramic candle jar.",
+      "imageUrl": "https://images.unsplash.com/photo-1644052021752-b14a42f567d9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjZXJhbWljJTIwY2FuZGxlfGVufDB8fHx8MTc3MDgyMTgxNXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "ceramic candle"
+    },
+    {
+      "id": "category-car-freshener",
+      "description": "A hanging wax sachet for cars.",
+      "imageUrl": "https://images.unsplash.com/photo-1581021833436-5ddc202fd333?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx3YXglMjBzYWNoZXR8ZW58MHx8fHwxNzcwODIwODEwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "wax sachet"
+    },
+    {
+      "id": "category-accessories",
+      "description": "Candle accessories like wick trimmers and snuffers.",
+      "imageUrl": "https://images.unsplash.com/photo-1702215081129-c4086a7a52ed?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y2FuZGxlJTIwYWNjZXNzb3JpZXN8ZW58MHx8fHwxNzcwODIwODExfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "candle accessories"
+    },
+    {
+      "id": "product-1-1",
+      "description": "Product image 1 for candle 1",
+      "imageUrl": "https://images.unsplash.com/photo-1763630355558-722dad917677?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxnbGFzcyUyMGNhbmRsZXxlbnwwfHx8fDE3NzA4NjIzMTJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "glass candle"
+    },
+    {
+      "id": "product-1-2",
+      "description": "Product image 2 for candle 1",
+      "imageUrl": "https://images.unsplash.com/photo-1639708517338-8a246ce70c22?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxsaWZlc3R5bGUlMjBjYW5kbGV8ZW58MHx8fHwxNzcwODY1MjkzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "lifestyle candle"
+    },
+    {
+      "id": "product-2-1",
+      "description": "Product image 1 for candle 2",
+      "imageUrl": "https://images.unsplash.com/photo-1619695662967-3e739a597f47?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx3aGl0ZSUyMGNhbmRsZXxlbnwwfHx8fDE3NzA4NjUyOTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "white candle"
+    },
+    {
+      "id": "product-3-1",
+      "description": "Product image 1 for candle 3",
+      "imageUrl": "https://images.unsplash.com/photo-1706922122814-12402375d89a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxkYXJrJTIwY2FuZGxlfGVufDB8fHx8MTc3MDg2NTI5M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "dark candle"
+    },
+    {
+      "id": "product-4-1",
+      "description": "Product image 1 for candle 4",
+      "imageUrl": "https://images.unsplash.com/photo-1586806827816-61178e78790a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxhbWJlciUyMGphcnxlbnwwfHx8fDE3NzA4NjUyOTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "amber jar"
+    },
+    {
+      "id": "product-5-1",
+      "description": "Product image 1 for candle 5",
+      "imageUrl": "https://images.unsplash.com/photo-1722925815479-9bbbc509add0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxjZXJhbWljJTIwY2FuZGxlfGVufDB8fHx8MTc3MDgyMTgxNXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "ceramic candle"
+    },
+    {
+      "id": "product-6-1",
+      "description": "Product image 1 for candle 6",
+      "imageUrl": "https://images.unsplash.com/photo-1618324395109-82adcad01043?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxyb3VuZCUyMGNhbmRsZXxlbnwwfHx8fDE3NzA4NjUyOTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "round candle"
+    },
+    {
+      "id": "product-7-1",
+      "description": "Product image 1 for candle 7",
+      "imageUrl": "https://images.unsplash.com/photo-1707839568938-f9b50bb88454?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxsdXh1cnklMjBjYW5kbGV8ZW58MHx8fHwxNzcwODY1MjkzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "luxury candle"
+    },
+    {
+      "id": "product-8-1",
+      "description": "Product image 1 for candle 8",
+      "imageUrl": "https://images.unsplash.com/photo-1587908316760-35e2aa9ded7a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxtaW5pbWFsJTIwY2FuZGxlfGVufDB8fHx8MTc3MDg2NTI5M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "minimal candle"
+    },
+    {
+      "id": "product-9-1",
+      "description": "Product image 1 for car freshener 1",
+      "imageUrl": "https://images.unsplash.com/photo-1697224687416-d66bab4daf8f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx3YXglMjBzYWNoZXR8ZW58MHx8fHwxNzcwODIwODEwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "wax sachet"
+    },
+    {
+      "id": "product-10-1",
+      "description": "Product image 1 for car freshener 2",
+      "imageUrl": "https://images.unsplash.com/photo-1762306857976-cbc8d774f628?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjYXIlMjBhaXItZnJlc2hlbmVyfGVufDB8fHx8MTc3MDg2NTI5M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "car air-freshener"
+    },
+    {
+      "id": "product-11-1",
+      "description": "Product image 1 for car freshener 3",
+      "imageUrl": "https://images.unsplash.com/photo-1699880621644-0457512f870b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8aGFuZ2luZyUyMHNhY2hldHxlbnwwfHx8fDE3NzA4NjUyOTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "hanging sachet"
+    },
+    {
+      "id": "product-12-1",
+      "description": "Product image 1 for wick trimmer",
+      "imageUrl": "https://picsum.photos/seed/p121/800/800",
+      "imageHint": "wick trimmer"
+    },
+    {
+      "id": "product-13-1",
+      "description": "Product image 1 for candle snuffer",
+      "imageUrl": "https://images.unsplash.com/photo-1634779846593-ad47a8f98b5d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y2FuZGxlJTIwc251ZmZlcnxlbnwwfHx8fDE3NzA4NjUyOTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "candle snuffer"
+    },
+    {
+      "id": "product-14-1",
+      "description": "Product image 1 for gift box",
+      "imageUrl": "https://images.unsplash.com/photo-1592903297149-37fb25202dfa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxnaWZ0JTIwYm94fGVufDB8fHx8MTc3MDc4MjA0M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "gift box"
+    },
+    {
+      "id": "checkout-success",
+      "description": "A beautifully wrapped gift box.",
+      "imageUrl": "https://images.unsplash.com/photo-1625552187571-7ee60ac43d2b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxnaWZ0JTIwYm94fGVufDB8fHx8MTc3MDc4MjA0M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "gift box"
+    }
+  ]
 }
