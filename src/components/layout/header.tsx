@@ -15,7 +15,6 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { CartIcon } from "@/components/cart/cart-icon";
 import { usePathname } from "next/navigation";
-import { motion } from "@/lib/motion";
 import * as React from "react";
 import {
   DropdownMenu,
@@ -38,37 +37,56 @@ export function Header() {
   const { data: session, status } = useSession();
   const user = session?.user as any;
   const pathname = usePathname();
+  const [scrolled, setScrolled] = React.useState(false);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 30);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const isActive = (href: string) => {
     if (!pathname) return false;
     if (href === "/") return pathname === "/";
-    // Active nếu pathname === href hoặc pathname bắt đầu bằng href + "/"
     return pathname === href || pathname.startsWith(href + "/");
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header
+      className={`sticky top-0 z-50 w-full transition-all duration-500 ${
+        scrolled
+          ? "bg-background/95 backdrop-blur-lg shadow-soft border-b border-border/50"
+          : "bg-background/80 backdrop-blur-sm border-b border-transparent"
+      }`}
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex h-16 items-center">
-        {/* Left: logo (keeps same left padding as container) */}
+        {/* Left: logo */}
         <div className="flex items-center flex-none">
-          <Link href="/" className="flex items-center">
+          <Link href="/" className="flex items-center group">
             <FlamoraLogo
-              className="h-14 w-14 md:h-16 md:w-16"
+              className="h-14 w-14 md:h-16 md:w-16 transition-transform duration-300 group-hover:scale-105"
               imageClassName="object-left"
             />
           </Link>
         </div>
 
         {/* Center: nav (hidden on small screens) */}
-        <nav className="hidden md:flex flex-1 justify-center items-center space-x-12 text-sm font-medium">
+        <nav className="hidden md:flex flex-1 justify-center items-center space-x-10 text-sm font-medium">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`relative transition-colors hover:text-[#BCA657] ${isActive(link.href) ? "text-[#BCA657]" : "text-foreground/60"}`}
+              className={`relative py-1 transition-colors duration-300 hover:text-primary ${
+                isActive(link.href) ? "text-primary" : "text-foreground/60"
+              }`}
             >
               <span
-                className={`relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:bg-[#BCA657] after:origin-left after:scale-x-0 after:transition-transform after:duration-300 after:ease-out ${isActive(link.href) ? "after:scale-x-100" : ""} hover:after:scale-x-100`}
+                className={`relative after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-primary after:origin-left after:scale-x-0 after:transition-transform after:duration-400 after:ease-out ${
+                  isActive(link.href) ? "after:scale-x-100" : ""
+                } hover:after:scale-x-100 after:w-full`}
               >
                 {link.label}
               </span>
@@ -84,47 +102,45 @@ export function Header() {
               <span className="sr-only">Mở menu</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="left">
-            <Link href="/" className="mb-6 block">
+          <SheetContent side="left" className="w-[300px]">
+            <Link href="/" className="mb-8 block">
               <FlamoraLogo className="h-12 w-48" imageClassName="object-left" />
             </Link>
-            <div className="flex flex-col space-y-4">
+            <div className="flex flex-col space-y-5">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`relative text-lg font-medium transition-colors hover:text-[#BCA657] ${isActive(link.href) ? "text-[#BCA657]" : "text-foreground/60"}`}
+                  className={`text-lg font-medium transition-colors duration-300 hover:text-primary hover:translate-x-1 transform ${
+                    isActive(link.href) ? "text-primary" : "text-foreground/60"
+                  }`}
                 >
-                  <span
-                    className={`relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:bg-[#BCA657] after:origin-left after:scale-x-0 after:transition-transform after:duration-300 after:ease-out ${isActive(link.href) ? "after:scale-x-100" : ""} hover:after:scale-x-100`}
-                  >
-                    {link.label}
-                  </span>
+                  {link.label}
                 </Link>
               ))}
-              <hr />
+              <hr className="border-border/50" />
               {status === "authenticated" ? (
                 <>
-                  <Link href="/account" className="text-lg font-medium">
+                  <Link href="/account" className="text-lg font-medium hover:text-primary transition-colors">
                     Tài khoản của tôi
                   </Link>
-                  <Link href="/orders" className="text-lg font-medium">
+                  <Link href="/orders" className="text-lg font-medium hover:text-primary transition-colors">
                     Đơn hàng
                   </Link>
                   {user?.role === "admin" && (
-                    <Link href="/admin" className="text-lg font-medium">
+                    <Link href="/admin" className="text-lg font-medium hover:text-primary transition-colors">
                       Quản trị
                     </Link>
                   )}
                   <button
                     onClick={() => signOut()}
-                    className="text-lg font-medium text-destructive text-left"
+                    className="text-lg font-medium text-destructive text-left hover:opacity-80 transition-opacity"
                   >
                     Đăng xuất
                   </button>
                 </>
               ) : (
-                <Link href="/login" className="text-lg font-medium">
+                <Link href="/login" className="text-lg font-medium hover:text-primary transition-colors">
                   Đăng nhập
                 </Link>
               )}
@@ -137,17 +153,17 @@ export function Header() {
             <Button
               variant="ghost"
               size="icon"
-              className="hidden md:inline-flex"
+              className="hidden md:inline-flex hover:bg-primary/10 transition-colors duration-300"
             >
-              <Search className="h-6 w-6" />
+              <Search className="h-5 w-5" />
               <span className="sr-only">Tìm kiếm</span>
             </Button>
 
             {status === "authenticated" ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    <User className="h-6 w-6" />
+                  <Button variant="ghost" size="icon" className="hover:bg-primary/10 transition-colors duration-300">
+                    <User className="h-5 w-5" />
                     <span className="sr-only">Tài khoản</span>
                   </Button>
                 </DropdownMenuTrigger>
@@ -192,9 +208,9 @@ export function Header() {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : status === "unauthenticated" ? (
-              <Button variant="ghost" size="icon" asChild>
+              <Button variant="ghost" size="icon" asChild className="hover:bg-primary/10 transition-colors duration-300">
                 <Link href="/login">
-                  <User className="h-6 w-6" />
+                  <User className="h-5 w-5" />
                   <span className="sr-only">Đăng nhập</span>
                 </Link>
               </Button>
