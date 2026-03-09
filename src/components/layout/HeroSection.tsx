@@ -19,10 +19,16 @@ export function HeroSection({ heroImage }: { heroImage: any }) {
   const overlayOpacity = useTransform(scrollYProgress, [0, 1], [0.4, 0.7]);
 
   return (
-    <section ref={ref} className="relative w-full h-[70vh] md:h-[90vh] text-white overflow-hidden">
+    <section
+      ref={ref}
+      className="relative w-full h-[70vh] md:h-[90vh] text-white overflow-hidden"
+    >
       {/* Parallax background image */}
       {heroImage && (
-        <motion.div style={{ y }} className="absolute inset-0 will-change-transform">
+        <motion.div
+          style={{ y }}
+          className="absolute inset-0 will-change-transform"
+        >
           <Image
             src={heroImage.imageUrl}
             alt={heroImage.description}
@@ -43,10 +49,22 @@ export function HeroSection({ heroImage }: { heroImage: any }) {
       {/* Floating ambient particles */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-2 h-2 rounded-full bg-amber-200/30 animate-float" />
-        <div className="absolute top-1/3 right-1/3 w-3 h-3 rounded-full bg-amber-100/20 animate-float-slow" style={{ animationDelay: '1s' }} />
-        <div className="absolute bottom-1/3 left-1/2 w-1.5 h-1.5 rounded-full bg-amber-200/25 animate-float" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 right-1/4 w-2.5 h-2.5 rounded-full bg-amber-100/15 animate-float-slow" style={{ animationDelay: '0.5s' }} />
-        <div className="absolute bottom-1/4 right-1/2 w-2 h-2 rounded-full bg-amber-200/20 animate-glow-pulse" style={{ animationDelay: '1.5s' }} />
+        <div
+          className="absolute top-1/3 right-1/3 w-3 h-3 rounded-full bg-amber-100/20 animate-float-slow"
+          style={{ animationDelay: "1s" }}
+        />
+        <div
+          className="absolute bottom-1/3 left-1/2 w-1.5 h-1.5 rounded-full bg-amber-200/25 animate-float"
+          style={{ animationDelay: "2s" }}
+        />
+        <div
+          className="absolute top-1/2 right-1/4 w-2.5 h-2.5 rounded-full bg-amber-100/15 animate-float-slow"
+          style={{ animationDelay: "0.5s" }}
+        />
+        <div
+          className="absolute bottom-1/4 right-1/2 w-2 h-2 rounded-full bg-amber-200/20 animate-glow-pulse"
+          style={{ animationDelay: "1.5s" }}
+        />
       </div>
 
       {/* Content */}
@@ -81,9 +99,9 @@ export function HeroSection({ heroImage }: { heroImage: any }) {
             textShadow: "0 4px 30px rgba(0,0,0,0.3)",
           }}
         >
-          A softer kind
+          Just Hang It,
           <br />
-          <span className="italic">of light</span>
+          <span className="italic">Just Breathe Fresh</span>
         </motion.h1>
 
         <motion.p
@@ -97,7 +115,8 @@ export function HeroSection({ heroImage }: { heroImage: any }) {
           className="mt-6 max-w-lg text-base md:text-lg text-white font-light leading-relaxed"
           style={{ willChange: "opacity, transform" }}
         >
-          Khám phá hương thơm tinh tế, thắp lên không gian sống ấm áp và dịu dàng.
+          Khám phá hương thơm tinh tế, thắp lên không gian sống ấm áp và dịu
+          dàng.
         </motion.p>
 
         <motion.div
@@ -129,7 +148,9 @@ export function HeroSection({ heroImage }: { heroImage: any }) {
         transition={{ delay: 1.2, duration: 0.6 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
-        <span className="text-white text-xs tracking-widest uppercase">Cuộn xuống</span>
+        <span className="text-white text-xs tracking-widest uppercase">
+          Cuộn xuống
+        </span>
         <ChevronDown className="w-5 h-5 text-white animate-scroll-indicator" />
       </motion.div>
     </section>

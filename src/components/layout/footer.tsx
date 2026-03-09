@@ -6,8 +6,19 @@ import { FlamoraLogo } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollReveal } from "@/components/layout/ScrollReveal";
+import { usePathname } from "next/navigation";
 
 export function Footer() {
+  const pathname = usePathname();
+  const hideOnPaths = ["/login", "/register", "/forgot-password", "/403"];
+
+  if (
+    pathname &&
+    hideOnPaths.some((p) => pathname === p || pathname.startsWith(p + "/"))
+  ) {
+    return null;
+  }
+
   return (
     <footer className="relative bg-secondary/50 overflow-hidden">
       {/* Gradient top border */}
@@ -19,7 +30,7 @@ export function Footer() {
             <div className="gap-y-2 xl:col-span-1 flex flex-col items-center text-center">
               <FlamoraLogo className="h-14 w-56" />
               <p className="text-muted-foreground text-base mt-0 mb-6">
-                A softer kind of light.
+                Just Hang It, Just Breathe Fresh.
               </p>
               <div className="flex space-x-5 mt-2">
                 {[

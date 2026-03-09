@@ -1,7 +1,9 @@
 "use server";
 
+import { getServerSession } from "next-auth";
 import { z } from "zod";
 import { generateScentNarrative } from "@/ai/flows/generate-scent-narrative";
+import { authOptions } from "@/lib/auth-options";
 import { CartItem, Order } from "@/types";
 
 const checkoutSchema = z.object({
@@ -13,8 +15,15 @@ const checkoutSchema = z.object({
 export async function handleCheckout(
   cartItems: CartItem[],
   total: number,
-  formData: FormData
+  formData: FormData,
 ) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return {
+      authRequired: true,
+    };
+  }
+
   const rawFormData = {
     name: formData.get("name"),
     phone: formData.get("phone"),
@@ -31,14 +40,14 @@ export async function handleCheckout(
 
   // In a real app, you would save this to a database.
   // Here, we're just creating a mock order object.
-  const order: Omit<Order, 'id'> = {
+  const order: Omit<Order, "id"> = {
     customer: validatedFields.data,
     items: cartItems,
     total: total,
     createdAt: Date.now(),
-    status: 'pending',
+    status: "pending",
   };
-  
+
   const orderId = `FLM-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
 
   console.log("Mock Order Created:", { id: orderId, ...order });
@@ -46,41 +55,43 @@ export async function handleCheckout(
   return {
     success: true,
     orderId: orderId,
-    orderData: { id: orderId, ...order }
+    orderData: { id: orderId, ...order },
   };
 }
 
-
 const scentNarrativeSchema = z.object({
-  topNotes: z.string().min(1, 'Ghi chú hàng đầu là bắt buộc'),
-  midNotes: z.string().min(1, 'Ghi chú giữa là bắt buộc'),
-  baseNotes: z.string().min(1, 'Ghi chú cơ sở là bắt buộc'),
+  topNotes: z.string().min(1, "Ghi chú hàng đầu là bắt buộc"),
+  midNotes: z.string().min(1, "Ghi chú giữa là bắt buộc"),
+  baseNotes: z.string().min(1, "Ghi chú cơ sở là bắt buộc"),
 });
 
-export async function generateNarrativeAction(prevState: any, formData: FormData) {
-    const validatedFields = scentNarrativeSchema.safeParse({
-        topNotes: formData.get('topNotes'),
-        midNotes: formData.get('midNotes'),
-        baseNotes: formData.get('baseNotes'),
-    });
+export async function generateNarrativeAction(
+  prevState: any,
+  formData: FormData,
+) {
+  const validatedFields = scentNarrativeSchema.safeParse({
+    topNotes: formData.get("topNotes"),
+    midNotes: formData.get("midNotes"),
+    baseNotes: formData.get("baseNotes"),
+  });
 
-    if (!validatedFields.success) {
-        return {
-            message: 'Dữ liệu nhập không hợp lệ.',
-            errors: validatedFields.error.flatten().fieldErrors,
-        }
-    }
+  if (!validatedFields.success) {
+    return {
+      message: "Dữ liệu nhập không hợp lệ.",
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
 
-    try {
-        const result = await generateScentNarrative(validatedFields.data);
-        return {
-            message: 'Tạo câu chuyện thành công.',
-            narrative: result.narrative,
-        }
-    } catch (error) {
-        console.error(error);
-        return {
-            message: 'Đã có lỗi xảy ra khi tạo câu chuyện.',
-        }
-    }
+  try {
+    const result = await generateScentNarrative(validatedFields.data);
+    return {
+      message: "Tạo câu chuyện thành công.",
+      narrative: result.narrative,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      message: "Đã có lỗi xảy ra khi tạo câu chuyện.",
+    };
+  }
 }

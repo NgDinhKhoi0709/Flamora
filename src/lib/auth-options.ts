@@ -1,18 +1,26 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { UserRole } from "@/types";
+import { verifyUserPassword } from "@/lib/user-store";
 
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "email", placeholder: "admin@flamora.vn" },
-        password: { label: "Mật khẩu", type: "password" }
+        email: {
+          label: "Email",
+          type: "email",
+          placeholder: "admin@flamora.vn",
+        },
+        password: { label: "Mật khẩu", type: "password" },
       },
       async authorize(credentials) {
         // Mock authentication logic
-        if (credentials?.email === "admin@flamora.vn" && credentials?.password === "Admin123!") {
+        if (
+          credentials?.email === "admin@flamora.vn" &&
+          credentials?.password === "Admin123!"
+        ) {
           return {
             id: "1",
             name: "Flamora Admin",
@@ -20,8 +28,11 @@ export const authOptions: NextAuthOptions = {
             role: "admin" as UserRole,
           };
         }
-        
-        if (credentials?.email === "user@gmail.com" && credentials?.password === "User123!") {
+
+        if (
+          credentials?.email === "user@gmail.com" &&
+          credentials?.password === "User123!"
+        ) {
           return {
             id: "2",
             name: "Gia Bảo",
@@ -30,9 +41,25 @@ export const authOptions: NextAuthOptions = {
           };
         }
 
+        if (credentials?.email && credentials?.password) {
+          const user = await verifyUserPassword({
+            email: credentials.email,
+            password: credentials.password,
+          });
+
+          if (user) {
+            return {
+              id: user.id,
+              name: user.name,
+              email: user.email,
+              role: user.role,
+            };
+          }
+        }
+
         return null;
-      }
-    })
+      },
+    }),
   ],
   callbacks: {
     async jwt({ token, user }) {
@@ -58,5 +85,3 @@ export const authOptions: NextAuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET || "flamora_secret_key_1234567890",
 };
-
-

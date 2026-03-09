@@ -2,13 +2,23 @@
 
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/layout/ScrollReveal";
+import {
+  ScrollReveal,
+  StaggerContainer,
+  StaggerItem,
+} from "@/components/layout/ScrollReveal";
 import { Card, CardContent } from "@/components/ui/card";
 import { Heart, Leaf, Shield, Sparkles } from "lucide-react";
 import { motion, useInView } from "framer-motion";
 import * as React from "react";
 
-function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: string }) {
+function AnimatedCounter({
+  target,
+  suffix = "",
+}: {
+  target: number;
+  suffix?: string;
+}) {
   const ref = React.useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-40px 0px" });
   const [count, setCount] = React.useState(0);
@@ -32,8 +42,12 @@ function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: str
   }, [isInView, target]);
 
   return (
-    <span ref={ref} className="font-headline text-4xl lg:text-5xl font-bold text-primary">
-      {count.toLocaleString()}{suffix}
+    <span
+      ref={ref}
+      className="font-headline text-4xl lg:text-5xl font-bold text-primary"
+    >
+      {count.toLocaleString()}
+      {suffix}
     </span>
   );
 }
@@ -42,22 +56,26 @@ const values = [
   {
     icon: Leaf,
     title: "Tự nhiên",
-    description: "100% nguyên liệu tự nhiên, thân thiện với môi trường và an toàn cho sức khỏe.",
+    description:
+      "100% nguyên liệu tự nhiên, thân thiện với môi trường và an toàn cho sức khỏe.",
   },
   {
     icon: Heart,
     title: "Tận tâm",
-    description: "Mỗi sản phẩm được đổ bằng tay với sự chăm chút tối đa từ đội ngũ nghệ nhân.",
+    description:
+      "Mỗi sản phẩm được đổ bằng tay với sự chăm chút tối đa từ đội ngũ nghệ nhân.",
   },
   {
     icon: Shield,
     title: "An toàn",
-    description: "Tinh dầu đạt chứng nhận an toàn, bấc cotton không chì, không phthalates.",
+    description:
+      "Tinh dầu đạt chứng nhận an toàn, bấc cotton không chì, không phthalates.",
   },
   {
     icon: Sparkles,
     title: "Độc đáo",
-    description: "Mùi hương được sáng tạo riêng, kể câu chuyện của vùng đất và ký ức.",
+    description:
+      "Mùi hương được sáng tạo riêng, kể câu chuyện của vùng đất và ký ức.",
   },
 ];
 
@@ -88,8 +106,8 @@ export default function AboutPage() {
               <span className="italic text-primary">Flamora</span>
             </h1>
             <p className="mt-6 text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto">
-              A softer kind of light. Chúng tôi tin rằng ánh sáng không chỉ để soi rọi,
-              mà còn để sưởi ấm tâm hồn.
+              Just Hang It, Just Breathe Fresh. Chúng tôi tin rằng ánh sáng
+              không chỉ để soi rọi, mà còn để sưởi ấm tâm hồn.
             </p>
           </ScrollReveal>
         </div>
@@ -107,19 +125,25 @@ export default function AboutPage() {
                 Bắt đầu từ <span className="italic">Đam mê</span>
               </h2>
               <p className="leading-relaxed mt-4">
-                Flamora ra đời từ tình yêu với những mùi hương tinh tế và niềm tin vào
-                sức mạnh chữa lành của ánh sáng dịu dàng. Chúng tôi muốn tạo ra không chỉ
-                là những ngọn nến, mà là những trải nghiệm, những khoảnh khắc bình yên
-                và thư thái trong cuộc sống hối hả.
+                Flamora ra đời từ tình yêu với những mùi hương tinh tế và niềm
+                tin vào sức mạnh chữa lành của ánh sáng dịu dàng. Chúng tôi muốn
+                tạo ra không chỉ là những ngọn nến, mà là những trải nghiệm,
+                những khoảnh khắc bình yên và thư thái trong cuộc sống hối hả.
               </p>
               <p className="leading-relaxed">
-                Hành trình của chúng tôi bắt đầu trong một gian bếp nhỏ, với những mẻ sáp
-                đầu tiên được đun chảy và pha trộn thủ công. Mỗi mùi hương là một câu chuyện,
-                một ký ức được chúng tôi gói ghém cẩn thận.
+                Hành trình của chúng tôi bắt đầu trong một gian bếp nhỏ, với
+                những mẻ sáp đầu tiên được đun chảy và pha trộn thủ công. Mỗi
+                mùi hương là một câu chuyện, một ký ức được chúng tôi gói ghém
+                cẩn thận.
               </p>
             </div>
           </ScrollReveal>
-          <ScrollReveal direction="right" distance={50} duration={0.7} delay={0.15}>
+          <ScrollReveal
+            direction="right"
+            distance={50}
+            duration={0.7}
+            delay={0.15}
+          >
             <div className="aspect-square relative rounded-2xl overflow-hidden shadow-soft-lg group">
               {aboutImage1 && (
                 <Image
@@ -142,7 +166,10 @@ export default function AboutPage() {
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
         </div>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <StaggerContainer className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center" staggerDelay={0.15}>
+          <StaggerContainer
+            className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center"
+            staggerDelay={0.15}
+          >
             {stats.map((stat, i) => (
               <StaggerItem key={i} direction="zoom">
                 <div className="flex flex-col items-center gap-2">
@@ -160,7 +187,13 @@ export default function AboutPage() {
       {/* Story Section 2 */}
       <section className="py-16 lg:py-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
-          <ScrollReveal direction="left" distance={50} duration={0.7} delay={0.15} className="md:order-2">
+          <ScrollReveal
+            direction="left"
+            distance={50}
+            duration={0.7}
+            delay={0.15}
+            className="md:order-2"
+          >
             <div className="prose prose-lg max-w-none text-foreground/80">
               <span className="text-primary text-sm tracking-[0.2em] uppercase font-medium">
                 Chất lượng
@@ -169,19 +202,25 @@ export default function AboutPage() {
                 Cam kết về <span className="italic">Chất lượng</span>
               </h2>
               <p className="leading-relaxed mt-4">
-                Chất lượng là ưu tiên hàng đầu tại Flamora. Chúng tôi tỉ mỉ lựa chọn những
-                nguyên liệu bền vững và thân thiện với môi trường. Sáp nến của chúng tôi là
-                hỗn hợp sáp cọ và sáp đậu nành tự nhiên, đảm bảo cháy sạch và an toàn.
+                Chất lượng là ưu tiên hàng đầu tại Flamora. Chúng tôi tỉ mỉ lựa
+                chọn những nguyên liệu bền vững và thân thiện với môi trường.
+                Sáp nến của chúng tôi là hỗn hợp sáp cọ và sáp đậu nành tự
+                nhiên, đảm bảo cháy sạch và an toàn.
               </p>
               <p className="leading-relaxed">
-                Bấc nến được làm từ sợi cotton không chì, và các loại tinh dầu hương liệu
-                chúng tôi sử dụng đều đạt chứng nhận an toàn, không chứa phthalates. Mỗi sản
-                phẩm đều được đổ bằng tay với sự chăm chút tối đa tại xưởng với tiêu chuẩn
-                nghiêm ngặt.
+                Bấc nến được làm từ sợi cotton không chì, và các loại tinh dầu
+                hương liệu chúng tôi sử dụng đều đạt chứng nhận an toàn, không
+                chứa phthalates. Mỗi sản phẩm đều được đổ bằng tay với sự chăm
+                chút tối đa tại xưởng với tiêu chuẩn nghiêm ngặt.
               </p>
             </div>
           </ScrollReveal>
-          <ScrollReveal direction="right" distance={50} duration={0.7} className="md:order-1">
+          <ScrollReveal
+            direction="right"
+            distance={50}
+            duration={0.7}
+            className="md:order-1"
+          >
             <div className="aspect-square relative rounded-2xl overflow-hidden shadow-soft-lg group">
               {aboutImage2 && (
                 <Image
@@ -202,7 +241,11 @@ export default function AboutPage() {
       <section className="py-16 lg:py-24 bg-secondary/30 relative overflow-hidden">
         <div className="absolute top-1/2 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl translate-x-1/2" />
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <ScrollReveal direction="up" distance={30} className="text-center mb-14">
+          <ScrollReveal
+            direction="up"
+            distance={30}
+            className="text-center mb-14"
+          >
             <span className="text-primary text-sm tracking-[0.2em] uppercase font-medium">
               Giá trị cốt lõi
             </span>
@@ -210,7 +253,10 @@ export default function AboutPage() {
               Điều chúng tôi <span className="italic">tin tưởng</span>
             </h2>
           </ScrollReveal>
-          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" staggerDelay={0.1}>
+          <StaggerContainer
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+            staggerDelay={0.1}
+          >
             {values.map((value, i) => (
               <StaggerItem key={i} direction="zoom">
                 <Card className="group h-full border-0 bg-card hover:shadow-card-hover transition-all duration-500 hover:-translate-y-2">

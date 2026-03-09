@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 export default function ForbiddenPage() {
   return (
-    <div className="container flex h-screen w-screen flex-col items-center justify-center">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex min-h-[calc(100dvh-4rem)] w-full flex-col items-center justify-center">
       <div className="mx-auto flex w-full flex-col justify-center space-y-6 text-center sm:w-[350px]">
         <h1 className="text-4xl font-bold">403</h1>
         <h2 className="text-2xl font-semibold">Truy cập bị từ chối</h2>

@@ -49,10 +49,12 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="container flex h-screen w-screen flex-col items-center justify-center py-10">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex min-h-[calc(100dvh-4rem)] w-full flex-col items-center justify-center py-10">
       <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
         <div className="flex flex-col space-y-2 text-center">
-          <h1 className="text-2xl font-semibold tracking-tight">Quên mật khẩu</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">
+            Quên mật khẩu
+          </h1>
           <p className="text-sm text-muted-foreground">
             Nhập email của bạn để nhận liên kết đặt lại mật khẩu
           </p>
@@ -60,7 +62,10 @@ export default function ForgotPasswordPage() {
         {!isSent ? (
           <div className="grid gap-6">
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-4"
+              >
                 <FormField
                   control={form.control}
                   name="email"
@@ -83,7 +88,8 @@ export default function ForgotPasswordPage() {
         ) : (
           <div className="text-center space-y-4">
             <p className="text-sm">
-              Chúng tôi đã gửi một liên kết đặt lại mật khẩu đến địa chỉ email của bạn.
+              Chúng tôi đã gửi một liên kết đặt lại mật khẩu đến địa chỉ email
+              của bạn.
             </p>
             <Button asChild variant="outline" className="w-full">
               <Link href="/login">Quay lại đăng nhập</Link>

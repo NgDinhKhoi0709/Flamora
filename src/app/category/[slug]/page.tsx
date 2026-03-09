@@ -19,18 +19,20 @@ export default async function CategoryPage({
   params,
   searchParams,
 }: {
-  params: { slug: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: Promise<{ slug: string }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
-  const currentCategory = await getCategoryBySlug(params.slug);
+  const [{ slug }, queryParams] = await Promise.all([params, searchParams]);
+
+  const currentCategory = await getCategoryBySlug(slug);
   if (!currentCategory) {
     notFound();
   }
 
   const allCategories = await getCategories();
-  const page = Number(searchParams['page'] ?? '1');
-  const sort = (searchParams['sort'] as SortOption) || 'newest';
-  const query = searchParams['q'] as string | undefined;
+  const page = Number(queryParams['page'] ?? '1');
+  const sort = (queryParams['sort'] as SortOption) || 'newest';
+  const query = queryParams['q'] as string | undefined;
 
   const allProducts = await getProducts({ category: currentCategory.slug, sort, query });
   const totalPages = Math.ceil(allProducts.length / PRODUCTS_PER_PAGE);

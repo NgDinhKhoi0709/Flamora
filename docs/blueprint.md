@@ -8,7 +8,7 @@
 - Shopping Cart Management: Add products with selected scent and color to a cart. Users can update item quantities, remove items, and see an accurately calculated total price using Zustand for state management.
 - Simplified Checkout & Order Mock: A streamlined checkout process requiring name, phone number, and address. Upon submission, a mock order is created and the user is redirected to a mock order confirmation page.
 - Mock Order History: Users can view a list of their mock orders and detailed information for each individual order.
-- Scent Narrative Creator (AI Tool): An AI-powered tool that takes scent notes as input and generates a poetic, evocative narrative description for each candle's unique fragrance profile, aligning with Flamora's brand aesthetic of 'A softer kind of light'.
+- Scent Narrative Creator (AI Tool): An AI-powered tool that takes scent notes as input and generates a poetic, evocative narrative description for each candle's unique fragrance profile, aligning with Flamora's brand aesthetic of 'Just Hang It, Just Breathe Fresh'.
 
 ## Style Guidelines:
 

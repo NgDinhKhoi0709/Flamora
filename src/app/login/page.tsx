@@ -79,57 +79,76 @@ function LoginContent() {
   }
 
   return (
-    <div className="container flex h-screen w-screen flex-col items-center justify-center">
-      <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-        <div className="flex flex-col space-y-2 text-center">
-          <h1 className="text-2xl font-semibold tracking-tight">Đăng nhập</h1>
-          <p className="text-sm text-muted-foreground">
-            Nhập email của bạn để đăng nhập vào tài khoản
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex min-h-[calc(100dvh-4rem)] w-full flex-col items-center justify-center">
+      <div className="w-full max-w-[420px]">
+        <div className="glass-card rounded-2xl p-7 sm:p-9">
+          <div className="flex flex-col space-y-2 text-center">
+            <h1 className="font-headline text-3xl tracking-tight">Đăng nhập</h1>
+            <p className="text-sm text-muted-foreground">
+              Nhập email của bạn để đăng nhập vào tài khoản
+            </p>
+          </div>
+
+          <div className="mt-7 grid gap-6">
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-4"
+              >
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="admin@flamora.vn"
+                          {...field}
+                          className="rounded-xl transition-shadow focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Mật khẩu</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="password"
+                          {...field}
+                          className="rounded-xl transition-shadow focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button
+                  className="w-full rounded-xl"
+                  type="submit"
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Đang xử lý..." : "Đăng nhập"}
+                </Button>
+              </form>
+            </Form>
+          </div>
+
+          <p className="mt-7 text-center text-sm text-muted-foreground">
+            <Link
+              href="/register"
+              className="hover:text-brand underline underline-offset-4"
+            >
+              Chưa có tài khoản? Đăng ký ngay
+            </Link>
           </p>
         </div>
-        <div className="grid gap-6">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder="admin@flamora.vn" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Mật khẩu</FormLabel>
-                    <FormControl>
-                      <Input type="password" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button className="w-full" type="submit" disabled={isLoading}>
-                {isLoading ? "Đang xử lý..." : "Đăng nhập"}
-              </Button>
-            </form>
-          </Form>
-        </div>
-        <p className="px-8 text-center text-sm text-muted-foreground">
-          <Link
-            href="/register"
-            className="hover:text-brand underline underline-offset-4"
-          >
-            Chưa có tài khoản? Đăng ký ngay
-          </Link>
-        </p>
       </div>
     </div>
   );
@@ -137,7 +156,13 @@ function LoginContent() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<div className="flex h-screen items-center justify-center">Đang tải...</div>}>
+    <Suspense
+      fallback={
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex min-h-[calc(100dvh-4rem)] w-full items-center justify-center">
+          Đang tải...
+        </div>
+      }
+    >
       <LoginContent />
     </Suspense>
   );

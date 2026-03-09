@@ -57,206 +57,247 @@ export default function RegisterPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
-    // In a real app, you would call your API here to register the user
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: values.name,
+          email: values.email,
+          password: values.password,
+        }),
+      });
+
+      const data = (await res.json().catch(() => null)) as
+        | { success: true }
+        | { success: false; message?: string };
+
+      if (!res.ok) {
+        toast({
+          variant: "destructive",
+          title: "Đăng ký thất bại",
+          description:
+            data && "success" in data && data.success === false && data.message
+              ? data.message
+              : "Vui lòng kiểm tra lại thông tin và thử lại.",
+        });
+        return;
+      }
+
       toast({
         title: "Đăng ký thành công",
         description: "Tài khoản của bạn đã được tạo. Vui lòng đăng nhập.",
       });
       router.push("/login");
-    }, 1000);
+    } catch {
+      toast({
+        variant: "destructive",
+        title: "Lỗi",
+        description: "Đã có lỗi xảy ra. Vui lòng thử lại sau.",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
-    <div className="container flex h-screen w-screen flex-col items-center justify-center py-10">
-      <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-        <div className="flex flex-col space-y-2 text-center">
-          <h1 className="text-2xl font-semibold tracking-tight">
-            Đăng ký tài khoản
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Nhập thông tin của bạn để tạo tài khoản mới
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex min-h-[calc(100dvh-4rem)] w-full flex-col items-center justify-center py-10">
+      <div className="w-full max-w-[420px]">
+        <div className="glass-card rounded-2xl p-7 sm:p-9">
+          <div className="flex flex-col space-y-2 text-center">
+            <h1 className="font-headline text-3xl tracking-tight">
+              Đăng ký tài khoản
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Nhập thông tin của bạn để tạo tài khoản mới
+            </p>
+          </div>
+
+          <div className="mt-7 grid gap-6">
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-4"
+              >
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <motion.label
+                        className="block"
+                        initial={{ opacity: 0.7, y: 2 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          duration: 0.2,
+                          ease: motionTokens.easing.soft,
+                        }}
+                      >
+                        Họ và tên
+                      </motion.label>
+                      <FormControl>
+                        <Input
+                          placeholder="Nguyễn Văn A"
+                          {...field}
+                          className="rounded-xl transition-shadow focus-visible:shadow-outline focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2"
+                        />
+                      </FormControl>
+                      <motion.div
+                        initial={{ opacity: 0, y: 2 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          duration: 0.2,
+                          ease: motionTokens.easing.soft,
+                        }}
+                      >
+                        <FormMessage />
+                      </motion.div>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <motion.label
+                        className="block"
+                        initial={{ opacity: 0.7, y: 2 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          duration: 0.2,
+                          ease: motionTokens.easing.soft,
+                        }}
+                      >
+                        Email
+                      </motion.label>
+                      <FormControl>
+                        <Input
+                          placeholder="name@example.com"
+                          {...field}
+                          className="rounded-xl transition-shadow focus-visible:shadow-outline focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2"
+                        />
+                      </FormControl>
+                      <motion.div
+                        initial={{ opacity: 0, y: 2 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          duration: 0.2,
+                          ease: motionTokens.easing.soft,
+                        }}
+                      >
+                        <FormMessage />
+                      </motion.div>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <motion.label
+                        className="block"
+                        initial={{ opacity: 0.7, y: 2 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          duration: 0.2,
+                          ease: motionTokens.easing.soft,
+                        }}
+                      >
+                        Mật khẩu
+                      </motion.label>
+                      <FormControl>
+                        <Input
+                          type="password"
+                          {...field}
+                          className="rounded-xl transition-shadow focus-visible:shadow-outline focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2"
+                        />
+                      </FormControl>
+                      <motion.div
+                        initial={{ opacity: 0, y: 2 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          duration: 0.2,
+                          ease: motionTokens.easing.soft,
+                        }}
+                      >
+                        <FormMessage />
+                      </motion.div>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="confirmPassword"
+                  render={({ field }) => (
+                    <FormItem>
+                      <motion.label
+                        className="block"
+                        initial={{ opacity: 0.7, y: 2 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          duration: 0.2,
+                          ease: motionTokens.easing.soft,
+                        }}
+                      >
+                        Xác nhận mật khẩu
+                      </motion.label>
+                      <FormControl>
+                        <Input
+                          type="password"
+                          {...field}
+                          className="rounded-xl transition-shadow focus-visible:shadow-outline focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2"
+                        />
+                      </FormControl>
+                      <motion.div
+                        initial={{ opacity: 0, y: 2 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          duration: 0.2,
+                          ease: motionTokens.easing.soft,
+                        }}
+                      >
+                        <FormMessage />
+                      </motion.div>
+                    </FormItem>
+                  )}
+                />
+                <Button
+                  className="w-full rounded-xl relative overflow-hidden"
+                  type="submit"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <motion.span
+                      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <span className="inline-block w-4 h-4 rounded-full bg-primary animate-pulse mr-2" />
+                      Đang xử lý...
+                    </motion.span>
+                  ) : (
+                    "Đăng ký"
+                  )}
+                </Button>
+              </form>
+            </Form>
+          </div>
+
+          <p className="mt-7 text-center text-sm text-muted-foreground">
+            <Link
+              href="/login"
+              className="hover:text-brand underline underline-offset-4"
+            >
+              Đã có tài khoản? Đăng nhập
+            </Link>
           </p>
         </div>
-        <div className="grid gap-6">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <motion.label
-                      className="block"
-                      initial={{ opacity: 0.7, y: 2 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        duration: 0.2,
-                        ease: motionTokens.easing.soft,
-                      }}
-                    >
-                      Họ và tên
-                    </motion.label>
-                    <FormControl>
-                      <Input
-                        placeholder="Nguyễn Văn A"
-                        {...field}
-                        className="transition-shadow focus-visible:shadow-outline focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2"
-                      />
-                    </FormControl>
-                    <motion.div
-                      initial={{ opacity: 0, y: 2 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        duration: 0.2,
-                        ease: motionTokens.easing.soft,
-                      }}
-                    >
-                      <FormMessage />
-                    </motion.div>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <motion.label
-                      className="block"
-                      initial={{ opacity: 0.7, y: 2 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        duration: 0.2,
-                        ease: motionTokens.easing.soft,
-                      }}
-                    >
-                      Email
-                    </motion.label>
-                    <FormControl>
-                      <Input
-                        placeholder="name@example.com"
-                        {...field}
-                        className="transition-shadow focus-visible:shadow-outline focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2"
-                      />
-                    </FormControl>
-                    <motion.div
-                      initial={{ opacity: 0, y: 2 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        duration: 0.2,
-                        ease: motionTokens.easing.soft,
-                      }}
-                    >
-                      <FormMessage />
-                    </motion.div>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <motion.label
-                      className="block"
-                      initial={{ opacity: 0.7, y: 2 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        duration: 0.2,
-                        ease: motionTokens.easing.soft,
-                      }}
-                    >
-                      Mật khẩu
-                    </motion.label>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        {...field}
-                        className="transition-shadow focus-visible:shadow-outline focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2"
-                      />
-                    </FormControl>
-                    <motion.div
-                      initial={{ opacity: 0, y: 2 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        duration: 0.2,
-                        ease: motionTokens.easing.soft,
-                      }}
-                    >
-                      <FormMessage />
-                    </motion.div>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="confirmPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <motion.label
-                      className="block"
-                      initial={{ opacity: 0.7, y: 2 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        duration: 0.2,
-                        ease: motionTokens.easing.soft,
-                      }}
-                    >
-                      Xác nhận mật khẩu
-                    </motion.label>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        {...field}
-                        className="transition-shadow focus-visible:shadow-outline focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2"
-                      />
-                    </FormControl>
-                    <motion.div
-                      initial={{ opacity: 0, y: 2 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        duration: 0.2,
-                        ease: motionTokens.easing.soft,
-                      }}
-                    >
-                      <FormMessage />
-                    </motion.div>
-                  </FormItem>
-                )}
-              />
-              <Button
-                className="w-full relative overflow-hidden"
-                type="submit"
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <motion.span
-                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <span className="inline-block w-4 h-4 rounded-full bg-primary animate-pulse mr-2" />
-                    Đang xử lý...
-                  </motion.span>
-                ) : (
-                  "Đăng ký"
-                )}
-              </Button>
-            </form>
-          </Form>
-        </div>
-        <p className="px-8 text-center text-sm text-muted-foreground">
-          <Link
-            href="/login"
-            className="hover:text-brand underline underline-offset-4"
-          >
-            Đã có tài khoản? Đăng nhập
-          </Link>
-        </p>
       </div>
     </div>
   );

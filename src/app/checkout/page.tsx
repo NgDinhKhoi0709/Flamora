@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 import { useCart } from "@/context/cart-context";
 import { formatPrice } from "@/lib/utils";
@@ -42,6 +43,7 @@ export default function CheckoutPage() {
   const { items, totalPrice, totalItems, clearCart } = useCart();
   const { addOrder } = useOrders();
   const { toast } = useToast();
+  const { data: session, status } = useSession();
 
   const form = useForm<z.infer<typeof checkoutSchema>>({
     resolver: zodResolver(checkoutSchema),
@@ -49,12 +51,30 @@ export default function CheckoutPage() {
   });
 
   async function onSubmit(values: z.infer<typeof checkoutSchema>) {
+    if (status !== "loading" && !session) {
+      toast({
+        title: "Yêu cầu đăng nhập",
+        description: "Bạn cần đăng nhập để tiếp tục thanh toán.",
+      });
+      router.push(`/login?callbackUrl=${encodeURIComponent("/checkout")}`);
+      return;
+    }
+
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("phone", values.phone);
     formData.append("address", values.address);
 
     const result = await handleCheckout(items, totalPrice, formData);
+
+    if (result?.authRequired) {
+      toast({
+        title: "Yêu cầu đăng nhập",
+        description: "Bạn cần đăng nhập để tiếp tục thanh toán.",
+      });
+      router.push(`/login?callbackUrl=${encodeURIComponent("/checkout")}`);
+      return;
+    }
 
     if (result?.errors) {
       toast({
@@ -218,7 +238,9 @@ export default function CheckoutPage() {
                     type="submit"
                     size="lg"
                     className="w-full mt-6"
-                    disabled={form.formState.isSubmitting}
+                    disabled={
+                      form.formState.isSubmitting || status === "loading"
+                    }
                   >
                     {form.formState.isSubmitting ? "Đang xử lý..." : "Đặt hàng"}
                   </Button>

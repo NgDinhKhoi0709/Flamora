@@ -1,4 +1,4 @@
-'use server';
+"use server";
 /**
  * @fileOverview An AI agent that generates poetic and brand-aligned scent narratives for Flamora candles.
  *
@@ -7,34 +7,52 @@
  * - GenerateScentNarrativeOutput - The return type for the generateScentNarrative function.
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import { ai } from "@/ai/genkit";
+import { z } from "genkit";
 
 const GenerateScentNarrativeInputSchema = z.object({
-  topNotes: z.string().describe('The top notes of the candle scent (e.g., bergamot, lemon zest).'),
-  midNotes: z.string().describe('The middle notes of the candle scent (e.g., jasmine, rose, cedarwood).'),
-  baseNotes: z.string().describe('The base notes of the candle scent (e.g., sandalwood, amber, musk).'),
+  topNotes: z
+    .string()
+    .describe(
+      "The top notes of the candle scent (e.g., bergamot, lemon zest).",
+    ),
+  midNotes: z
+    .string()
+    .describe(
+      "The middle notes of the candle scent (e.g., jasmine, rose, cedarwood).",
+    ),
+  baseNotes: z
+    .string()
+    .describe(
+      "The base notes of the candle scent (e.g., sandalwood, amber, musk).",
+    ),
 });
-export type GenerateScentNarrativeInput = z.infer<typeof GenerateScentNarrativeInputSchema>;
+export type GenerateScentNarrativeInput = z.infer<
+  typeof GenerateScentNarrativeInputSchema
+>;
 
 const GenerateScentNarrativeOutputSchema = z.object({
   narrative: z
     .string()
-    .describe('A poetic, brand-aligned short description of the candle scent, evoking a softer kind of light.'),
+    .describe(
+      "A poetic, brand-aligned short description of the candle scent, evoking Just Hang It, Just Breathe Fresh.",
+    ),
 });
-export type GenerateScentNarrativeOutput = z.infer<typeof GenerateScentNarrativeOutputSchema>;
+export type GenerateScentNarrativeOutput = z.infer<
+  typeof GenerateScentNarrativeOutputSchema
+>;
 
 export async function generateScentNarrative(
-  input: GenerateScentNarrativeInput
+  input: GenerateScentNarrativeInput,
 ): Promise<GenerateScentNarrativeOutput> {
   return generateScentNarrativeFlow(input);
 }
 
 const prompt = ai.definePrompt({
-  name: 'generateScentNarrativePrompt',
-  input: {schema: GenerateScentNarrativeInputSchema},
-  output: {schema: GenerateScentNarrativeOutputSchema},
-  prompt: `You are a creative writer for FLAMORA, a candle brand known for "A softer kind of light".
+  name: "generateScentNarrativePrompt",
+  input: { schema: GenerateScentNarrativeInputSchema },
+  output: { schema: GenerateScentNarrativeOutputSchema },
+  prompt: `You are a creative writer for FLAMORA, a candle brand known for "Just Hang It, Just Breathe Fresh".
 Your style is minimalist, warm, sophisticated, and uses language that evokes a sense of peace and natural elegance, often associated with dried flowers and soft, creamy tones.
 
 Craft a poetic and concise narrative (2-4 sentences) that describes a candle scent based on its notes.
@@ -52,12 +70,12 @@ Generate the narrative for the provided notes, aligning with the Flamora brand a
 
 const generateScentNarrativeFlow = ai.defineFlow(
   {
-    name: 'generateScentNarrativeFlow',
+    name: "generateScentNarrativeFlow",
     inputSchema: GenerateScentNarrativeInputSchema,
     outputSchema: GenerateScentNarrativeOutputSchema,
   },
-  async input => {
-    const {output} = await prompt(input);
+  async (input) => {
+    const { output } = await prompt(input);
     return output!;
-  }
+  },
 );
