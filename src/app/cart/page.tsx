@@ -76,13 +76,7 @@ export default function CartPage() {
                           <p className="mt-1 text-sm text-muted-foreground">
                             {item.scent.name}
                           </p>
-                          <p className="mt-1 text-sm text-muted-foreground flex items-center">
-                            Màu: {item.color.name}
-                            <span
-                              className="ml-2 h-4 w-4 rounded-full border"
-                              style={{ backgroundColor: item.color.hex }}
-                            />
-                          </p>
+
                         </div>
                         <div className="flex flex-1 items-end justify-between text-sm mt-4">
                           <div className="flex items-center border border-input rounded-md">

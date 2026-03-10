@@ -1,419 +1,210 @@
-import { Category, Product, Scent, ProductColor, SortOption } from "@/types";
-import { slugify } from "@/lib/utils";
+import fs from "fs";
+import path from "path";
+import { Category, Product, Scent, SortOption } from "@/types";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
+import { BASE_SCENTS } from "@/lib/constants";
 
 const findImage = (id: string) =>
   PlaceHolderImages.find((img) => img.id === id)?.imageUrl ||
   "https://picsum.photos/seed/placeholder/800/800";
 
-const categories: Category[] = [
+// ─── Lấy ảnh từ thư mục public/sap_thom/ ────────────────────────────────────
+const getImagesFromFolder = (folderName: string): string[] => {
+  try {
+    const dirPath = path.join(process.cwd(), "public", "sap_thom", folderName);
+    if (!fs.existsSync(dirPath)) return [];
+    
+    const files = fs.readdirSync(dirPath);
+    const images = files.filter(file => /\.(jpg|jpeg|png|webp|avif|gif)$/i.test(file));
+    
+    // Convert to URL paths
+    return images.map(file => `/sap_thom/${folderName}/${file}`);
+  } catch (error) {
+    console.error(`Error reading directory public/sap_thom/${folderName}:`, error);
+    return [];
+  }
+};
+
+// ─── Categories ───────────────────────────────────────────────────────────────
+const categoriesBase = [
   {
     id: "cat1",
-    name: "Nến Ly Mini",
-    slug: "nen-ly-mini",
+    name: "Sáp Treo Xe",
+    slug: "sap-treo-xe",
     description:
-      "Những hũ nến nhỏ xinh, phù hợp để khám phá mùi hương mới hoặc làm quà tặng.",
-    image: findImage("category-mini-jar"),
+      "Mang hương thơm yêu thích theo bạn trên mọi nẻo đường với những miếng sáp treo xe tinh tế.",
+    _folder: "oto",
+    _fallback: "category-car-freshener",
   },
   {
     id: "cat2",
-    name: "Nến Hũ Tròn",
-    slug: "nen-hu-tron",
+    name: "Sáp Treo Phòng",
+    slug: "sap-treo-phong",
     description:
-      "Những nến hũ tròn thủ công với thiết kế tinh tế, phù hợp làm quà và trang trí.",
-    image: findImage("category-jar"),
+      "Khuếch tán hương thơm tự nhiên cho không gian sống, phòng ngủ và phòng làm việc của bạn.",
+    _folder: "phong_ngu",
+    _fallback: "category-jar",
   },
   {
     id: "cat3",
-    name: "Sáp Thơm Treo Xe",
-    slug: "sap-thom-treo-xe",
-    description: "Mang hương thơm yêu thích theo bạn trên mọi nẻo đường.",
-    image: findImage("category-car-freshener"),
+    name: "Sáp Treo Tủ",
+    slug: "sap-treo-tu",
+    description:
+      "Giữ quần áo và tủ đồ luôn thơm mát với những sáp treo tủ chất lượng cao.",
+    _folder: "tu",
+    _fallback: "category-mini-jar",
   },
   {
     id: "cat4",
-    name: "Phụ Kiện & Quà Tặng",
-    slug: "phu-kien-qua-tang",
-    description: "Các phụ kiện và set quà tặng hoàn hảo cho mọi dịp.",
-    image: findImage("category-gift-accessory"),
+    name: "Set Quà Tặng",
+    slug: "set-qua-tang",
+    description:
+      "Các bộ quà tặng hoàn hảo, được đóng gói tinh tế cho mọi dịp đặc biệt.",
+    _folder: "set4",
+    _fallback: "category-gift-accessory",
   },
 ];
 
-const products: Product[] = [
-  // Nến Ly Mini
+// Helper to add IDs to the base scents
+const makeScents = (prefix: string): Scent[] => BASE_SCENTS.map((item, index) => ({
+  id: `${prefix}-s${index + 1}`,
+  ...item
+}));
+
+// ─── Products ─────────────────────────────────────────────────────────────────
+const productsBase = [
+  // ── Sáp Treo Xe ──────────────────────────────────────────────────────────────
   {
-    id: "prod1",
-    name: 'Nến Thơm "First Light"',
-    slug: "nen-thom-first-light",
-    category: "nen-ly-mini",
-    shortDescription: "Sự khởi đầu tươi mới và tinh khôi.",
+    id: "prod-xe",
+    name: "Sáp Thơm Treo Xe Flamora",
+    slug: "sap-thom-treo-xe",
+    category: "sap-treo-xe",
+    shortDescription: "Mang hương thơm yêu thích theo bạn trên mọi nẻo đường.",
     description:
-      'Hương thơm "First Light" như những tia nắng đầu tiên của ngày mới, trong trẻo và đầy năng lượng. Sự kết hợp của cam bergamot và hoa nhài trắng tạo nên một không gian tươi mát, đánh thức mọi giác quan.',
+      "Sáp thơm treo xe Flamora được làm từ sáp tự nhiên 100%, kết hợp với hoa khô và tinh dầu nguyên chất. Hương thơm kéo dài 30–45 ngày, giúp không gian trong xe luôn dễ chịu và thư thái. Có 6 mùi hương để lựa chọn.",
     usageInstructions:
-      "Trong lần đốt đầu tiên, hãy để sáp chảy đều khắp bề mặt (khoảng 1-2 giờ). Cắt bấc còn 0.5cm trước mỗi lần đốt. Không đốt quá 4 giờ.",
+      "Treo trên gương chiếu hậu hoặc thông gió trong xe. Tránh tiếp xúc trực tiếp với ánh nắng mặt trời. Thay mới sau 30–45 ngày.",
     shippingReturns:
       "Giao hàng trong 2-5 ngày. Đổi trả miễn phí trong 7 ngày nếu có lỗi từ nhà sản xuất.",
-    images: [findImage("product-1-1"), findImage("product-1-2")],
-    tags: ["Mới", "Bán chạy"],
-    createdAt: "2024-05-01T10:00:00Z",
+    _folder: "oto",
+    _fallbacks: ["product-9-1", "product-1-1"],
+    tags: ["Bán chạy"],
+    createdAt: "2024-01-01T10:00:00Z",
     popularityScore: 95,
-    scents: [
-      {
-        id: "s1",
-        name: "First Light",
-        price: 250000,
-        notes: {
-          top: "Cam Bergamot, Chanh Vàng",
-          mid: "Hoa Nhài Trắng, Hoa Linh Lan",
-          base: "Xạ Hương Trắng",
-        },
-        descriptionShort: "Tươi mát, trong trẻo",
-      },
-    ],
-    colors: [{ name: "Trắng Ngà", hex: "#F5F4F0" }],
+    scents: makeScents("xe"),
   },
+
+  // ── Sáp Treo Phòng ───────────────────────────────────────────────────────────
   {
-    id: "prod2",
-    name: 'Nến Thơm "Sunday Morning"',
-    slug: "nen-thom-sunday-morning",
-    category: "nen-ly-mini",
-    shortDescription: "Cảm giác thư thái của một buổi sáng Chủ Nhật.",
+    id: "prod-phong",
+    name: "Sáp Thơm Treo Phòng Flamora",
+    slug: "sap-thom-treo-phong",
+    category: "sap-treo-phong",
+    shortDescription: "Không gian sống thơm mát, dễ chịu suốt cả ngày.",
     description:
-      'Tận hưởng sự bình yên và thư giãn tuyệt đối với "Sunday Morning". Mùi hương của vải lanh sạch, hoa oải hương và một chút cúc la mã sẽ đưa bạn đến cảm giác của một buổi sáng cuối tuần không vướng bận.',
+      "Sáp thơm treo phòng Flamora với hoa khô tự nhiên trang trí tinh tế, phù hợp đặt trong phòng ngủ, phòng khách và góc làm việc. Hương thơm lan tỏa nhẹ nhàng trong không gian, kéo dài 30–60 ngày. Có 6 mùi hương để lựa chọn.",
     usageInstructions:
-      "Trong lần đốt đầu tiên, hãy để sáp chảy đều khắp bề mặt (khoảng 1-2 giờ). Cắt bấc còn 0.5cm trước mỗi lần đốt. Không đốt quá 4 giờ.",
+      "Treo tại vị trí thoáng khí trong phòng, cách xa nguồn nhiệt và ánh nắng trực tiếp. Thay mới sau 30–60 ngày tùy độ thông thoáng.",
     shippingReturns:
       "Giao hàng trong 2-5 ngày. Đổi trả miễn phí trong 7 ngày nếu có lỗi từ nhà sản xuất.",
-    images: [findImage("product-2-1")],
-    tags: ["Bán chạy"],
-    createdAt: "2024-04-15T10:00:00Z",
+    _folder: "phong_ngu",
+    _fallbacks: ["product-4-1", "product-5-1"],
+    tags: ["Mới", "Bán chạy"],
+    createdAt: "2024-02-01T10:00:00Z",
     popularityScore: 92,
-    scents: [
-      {
-        id: "s2",
-        name: "Sunday Morning",
-        price: 250000,
-        notes: {
-          top: "Vải Lanh Sạch",
-          mid: "Hoa Oải Hương, Cúc La Mã",
-          base: "Gỗ Tuyết Tùng",
-        },
-        descriptionShort: "Sạch sẽ, thư giãn",
-      },
-    ],
-    colors: [{ name: "Trắng Ngà", hex: "#F5F4F0" }],
+    scents: makeScents("phong"),
   },
+
+  // ── Sáp Treo Tủ ──────────────────────────────────────────────────────────────
   {
-    id: "prod3",
-    name: 'Nến Thơm "Golden Hour"',
-    slug: "nen-thom-golden-hour",
-    category: "nen-ly-mini",
-    shortDescription: "Khoảnh khắc hoàng hôn vàng rực.",
+    id: "prod-tu",
+    name: "Sáp Thơm Treo Tủ Flamora",
+    slug: "sap-thom-treo-tu",
+    category: "sap-treo-tu",
+    shortDescription: "Giữ quần áo và tủ đồ luôn thơm mát, tươi mới.",
     description:
-      'Ấm áp và quyến rũ, "Golden Hour" là sự hòa quyện của hổ phách, gỗ đàn hương và một chút hương hoa cam. Mùi hương này như một cái ôm ấm áp, hoàn hảo cho những buổi tối lãng mạn.',
+      "Sáp thơm treo tủ Flamora giúp ngăn mùi ẩm, bảo vệ quần áo và mang lại hương thơm dễ chịu cho tủ đồ. Thiết kế nhỏ gọn, tiện lợi, hương thơm kéo dài 60–90 ngày. Có 6 mùi hương để lựa chọn.",
     usageInstructions:
-      "Trong lần đốt đầu tiên, hãy để sáp chảy đều khắp bề mặt (khoảng 1-2 giờ). Cắt bấc còn 0.5cm trước mỗi lần đốt. Không đốt quá 4 giờ.",
+      "Treo bên trong tủ quần áo hoặc ngăn kéo. Không để tiếp xúc trực tiếp với vải. Thay mới sau 60–90 ngày.",
     shippingReturns:
       "Giao hàng trong 2-5 ngày. Đổi trả miễn phí trong 7 ngày nếu có lỗi từ nhà sản xuất.",
-    images: [findImage("product-3-1")],
+    _folder: "tu",
+    _fallbacks: ["product-6-1", "product-7-1"],
     tags: [],
-    createdAt: "2024-03-20T10:00:00Z",
+    createdAt: "2024-03-01T10:00:00Z",
     popularityScore: 88,
-    scents: [
-      {
-        id: "s3",
-        name: "Golden Hour",
-        price: 270000,
-        notes: {
-          top: "Hoa Cam",
-          mid: "Hổ Phách, Nhựa Thơm",
-          base: "Gỗ Đàn Hương, Vanilla",
-        },
-        descriptionShort: "Ấm áp, quyến rũ",
-      },
-    ],
-    colors: [{ name: "Trắng Ngà", hex: "#F5F4F0" }],
-  },
-  // Nến Hũ Tròn
-  {
-    id: "prod4",
-    name: 'Nến Hũ Gốm "Hanoi 1990"',
-    slug: "nen-hu-gom-hanoi-1990",
-    category: "nen-hu-tron",
-    shortDescription: "Ký ức Hà Nội xưa trong từng nốt hương.",
-    description:
-      "Một mùi hương hoài niệm, lấy cảm hứng từ không khí Hà Nội những năm 90. Hương gỗ sưa trầm ấm, hoa ngọc lan thoang thoảng và một chút mùi mưa bụi đặc trưng tạo nên một tầng hương sâu lắng và đầy cảm xúc.",
-    usageInstructions:
-      "Trong lần đốt đầu tiên, hãy để sáp chảy đều khắp bề mặt (khoảng 2-3 giờ). Cắt bấc còn 0.5cm trước mỗi lần đốt. Không đốt quá 4 giờ.",
-    shippingReturns:
-      "Giao hàng trong 2-5 ngày. Đổi trả miễn phí trong 7 ngày nếu có lỗi từ nhà sản xuất.",
-    images: [findImage("product-4-1")],
-    tags: ["Bán chạy", "Quà tặng"],
-    createdAt: "2024-05-10T10:00:00Z",
-    popularityScore: 98,
-    scents: [
-      {
-        id: "s4",
-        name: "Hanoi 1990",
-        price: 550000,
-        notes: {
-          top: "Hương Mưa Bụi",
-          mid: "Hoa Ngọc Lan, Hoa Sữa",
-          base: "Gỗ Sưa, Hoắc Hương",
-        },
-        descriptionShort: "Trầm ấm, hoài niệm",
-      },
-    ],
-    colors: [
-      { name: "Gốm Nâu", hex: "#8B6B5C" },
-      { name: "Gốm Kem", hex: "#EAE0D5" },
-    ],
-  },
-  {
-    id: "prod5",
-    name: 'Nến Hũ Gốm "Kyoto Garden"',
-    slug: "nen-hu-gom-kyoto-garden",
-    category: "nen-hu-tron",
-    shortDescription: "Khu vườn Nhật Bản tĩnh tại và an yên.",
-    description:
-      'Thanh khiết và tĩnh tại, "Kyoto Garden" là sự kết hợp tinh tế của trà xanh matcha, tre non và hoa anh đào. Một mùi hương giúp thanh lọc tâm trí, mang lại cảm giác bình yên như đang dạo bước trong một khu vườn Nhật Bản.',
-    usageInstructions:
-      "Trong lần đốt đầu tiên, hãy để sáp chảy đều khắp bề mặt (khoảng 2-3 giờ). Cắt bấc còn 0.5cm trước mỗi lần đốt. Không đốt quá 4 giờ.",
-    shippingReturns:
-      "Giao hàng trong 2-5 ngày. Đổi trả miễn phí trong 7 ngày nếu có lỗi từ nhà sản xuất.",
-    images: [findImage("product-5-1")],
-    tags: ["Mới"],
-    createdAt: "2024-05-20T10:00:00Z",
-    popularityScore: 90,
-    scents: [
-      {
-        id: "s5",
-        name: "Kyoto Garden",
-        price: 520000,
-        notes: {
-          top: "Tre Non",
-          mid: "Trà Xanh Matcha, Hoa Anh Đào",
-          base: "Gỗ Hinoki",
-        },
-        descriptionShort: "Thanh khiết, tĩnh tại",
-      },
-    ],
-    colors: [
-      { name: "Gốm Xanh Matcha", hex: "#A3B899" },
-      { name: "Gốm Kem", hex: "#EAE0D5" },
-    ],
-  },
-  {
-    id: "prod6",
-    name: 'Nến Hũ Gốm "Wild Cabin"',
-    slug: "nen-hu-gom-wild-cabin",
-    category: "nen-hu-tron",
-    shortDescription: "Hơi ấm của căn nhà gỗ giữa rừng thông.",
-    description:
-      '"Wild Cabin" mang đến không khí ấm cúng của một căn nhà gỗ giữa rừng sâu. Hương thơm của gỗ thông, da thuộc, khói và một chút gia vị quế hồi tạo nên một mùi hương nam tính, mạnh mẽ và đầy cuốn hút.',
-    usageInstructions:
-      "Trong lần đốt đầu tiên, hãy để sáp chảy đều khắp bề mặt (khoảng 2-3 giờ). Cắt bấc còn 0.5cm trước mỗi lần đốt. Không đốt quá 4 giờ.",
-    shippingReturns:
-      "Giao hàng trong 2-5 ngày. Đổi trả miễn phí trong 7 ngày nếu có lỗi từ nhà sản xuất.",
-    images: [findImage("product-6-1")],
-    tags: [],
-    createdAt: "2024-02-10T10:00:00Z",
-    popularityScore: 85,
-    scents: [
-      {
-        id: "s6",
-        name: "Wild Cabin",
-        price: 580000,
-        notes: {
-          top: "Lá Thông, Tiêu Đen",
-          mid: "Da Thuộc, Quế, Hồi",
-          base: "Gỗ Tuyết Tùng, Khói",
-        },
-        descriptionShort: "Mạnh mẽ, ấm cúng",
-      },
-    ],
-    colors: [
-      { name: "Gốm Đen", hex: "#333333" },
-      { name: "Gốm Nâu", hex: "#8B6B5C" },
-    ],
-  },
-  {
-    id: "prod7",
-    name: 'Nến Hũ Gốm "Lofi Chill"',
-    slug: "nen-hu-gom-lofi-chill",
-    category: "nen-hu-tron",
-    shortDescription: "Giai điệu thư giãn cho một ngày mưa.",
-    description:
-      'Hoàn hảo cho những ngày mưa lười biếng, "Lofi Chill" là sự kết hợp của hương mưa, giấy cũ và cà phê đen. Một mùi hương độc đáo, giúp bạn tập trung làm việc hoặc đơn giản là cuộn mình trong chăn ấm.',
-    usageInstructions:
-      "Trong lần đốt đầu tiên, hãy để sáp chảy đều khắp bề mặt (khoảng 2-3 giờ). Cắt bấc còn 0.5cm trước mỗi lần đốt. Không đốt quá 4 giờ.",
-    shippingReturns:
-      "Giao hàng trong 2-5 ngày. Đổi trả miễn phí trong 7 ngày nếu có lỗi từ nhà sản xuất.",
-    images: [findImage("product-7-1")],
-    tags: ["Bán chạy"],
-    createdAt: "2024-01-15T10:00:00Z",
-    popularityScore: 93,
-    scents: [
-      {
-        id: "s7a",
-        name: "Lofi Chill - Coffee",
-        price: 560000,
-        notes: {
-          top: "Hương Mưa, Không Khí",
-          mid: "Giấy Cũ, Cà Phê Rang",
-          base: "Gỗ Sồi, Rêu",
-        },
-        descriptionShort: "Thư giãn, độc đáo",
-      },
-      {
-        id: "s7b",
-        name: "Lofi Chill - Tea",
-        price: 540000,
-        notes: {
-          top: "Hương Mưa, Cam Bergamot",
-          mid: "Giấy Cũ, Trà Earl Grey",
-          base: "Gỗ Sồi, Rêu",
-        },
-        descriptionShort: "Thư thái, nhẹ nhàng",
-      },
-    ],
-    colors: [
-      { name: "Gốm Xám", hex: "#A9A9A9" },
-      { name: "Gốm Kem", hex: "#EAE0D5" },
-    ],
+    scents: makeScents("tu"),
   },
 
-  // Sáp thơm
+  // ── Set Quà Tặng ─────────────────────────────────────────────────────────────
   {
-    id: "prod9",
-    name: 'Sáp Thơm "Road Trip"',
-    slug: "sap-thom-road-trip",
-    category: "sap-thom-treo-xe",
-    shortDescription: "Hương thơm sảng khoái cho mọi chuyến đi.",
+    id: "prod-set-4",
+    name: 'Set 4 Sáp Thơm Quà Tặng',
+    slug: "set-4-sap-thom",
+    category: "set-qua-tang",
+    shortDescription: "Bộ 4 sáp thơm tiết kiệm, phù hợp làm quà tặng.",
     description:
-      "Sự kết hợp của bạc hà, chanh và hương biển mang lại cảm giác sảng khoái, tỉnh táo, biến mỗi chuyến đi thành một hành trình thú vị.",
-    usageInstructions:
-      "Treo trong xe, tủ quần áo, hoặc không gian nhỏ. Tránh tiếp xúc trực tiếp với ánh nắng mặt trời.",
+      "Bộ quà tặng bao gồm 4 sáp thơm Flamora (có thể mix tùy ý giữa các dòng treo xe, treo phòng, treo tủ). Bạn có thể tự chọn mùi hương yêu thích, hoặc để Flamora chọn ngẫu nhiên những mùi hương best-seller cho bạn.",
+    usageInstructions: "Thông tin chi tiết trên từng sản phẩm trong bộ.",
     shippingReturns:
-      "Giao hàng trong 2-5 ngày. Đổi trả miễn phí trong 7 ngày nếu có lỗi từ nhà sản xuất.",
-    images: [findImage("product-9-1")],
-    tags: ["Bán chạy"],
-    createdAt: "2023-12-01T10:00:00Z",
-    popularityScore: 91,
-    scents: [
-      {
-        id: "s9",
-        name: "Road Trip",
-        price: 180000,
-        notes: {
-          top: "Bạc Hà, Chanh",
-          mid: "Hương Biển, Oải Hương",
-          base: "Gỗ Thông",
-        },
-        descriptionShort: "Sảng khoái, mát mẻ",
-      },
-    ],
-    colors: [{ name: "Xanh Bạc Hà", hex: "#BEE3DB" }],
-  },
-  {
-    id: "prod10",
-    name: 'Sáp Thơm "Bookstore"',
-    slug: "sap-thom-bookstore",
-    category: "sap-thom-treo-xe",
-    shortDescription: "Mùi hương của tiệm sách cũ.",
-    description:
-      "Hương thơm ấm áp từ gỗ, vani và da thuộc, gợi nhớ về không gian yên tĩnh của một hiệu sách cũ, nơi bạn có thể đắm mình vào những trang sách.",
-    usageInstructions:
-      "Treo trong xe, tủ quần áo, hoặc không gian nhỏ. Tránh tiếp xúc trực tiếp với ánh nắng mặt trời.",
-    shippingReturns:
-      "Giao hàng trong 2-5 ngày. Đổi trả miễn phí trong 7 ngày nếu có lỗi từ nhà sản xuất.",
-    images: [findImage("product-10-1")],
-    tags: [],
-    createdAt: "2024-04-01T10:00:00Z",
-    popularityScore: 87,
-    scents: [
-      {
-        id: "s10",
-        name: "Bookstore",
-        price: 190000,
-        notes: {
-          top: "Giấy Mới",
-          mid: "Da Thuộc, Gỗ Tuyết Tùng",
-          base: "Vani, Hổ Phách",
-        },
-        descriptionShort: "Ấm áp, trí thức",
-      },
-    ],
-    colors: [{ name: "Nâu Da Bò", hex: "#D2B48C" }],
-  },
-
-  // Phụ kiện
-  {
-    id: "prod12",
-    name: "Dụng Cụ Cắt Bấc Nến",
-    slug: "dung-cu-cat-bac-nen",
-    category: "phu-kien-qua-tang",
-    shortDescription: "Giữ cho ngọn nến của bạn luôn hoàn hảo.",
-    description:
-      "Dụng cụ cắt bấc chuyên dụng giúp bạn dễ dàng cắt bấc nến đến độ dài lý tưởng (0.5cm), đảm bảo nến cháy sạch, đều và an toàn.",
-    usageInstructions:
-      "Sử dụng trước mỗi lần đốt nến. Đặt phần đáy của dụng cụ lên bề mặt sáp và cắt.",
-    shippingReturns:
-      "Giao hàng trong 2-5 ngày. Đổi trả miễn phí trong 7 ngày nếu có lỗi từ nhà sản xuất.",
-    images: [findImage("product-12-1")],
-    tags: ["Quà tặng"],
-    createdAt: "2023-11-01T10:00:00Z",
-    popularityScore: 80,
-    scents: [
-      {
-        id: "s12",
-        name: "Tiêu chuẩn",
-        price: 150000,
-        notes: { top: "", mid: "", base: "" },
-        descriptionShort: "",
-      },
-    ],
-    colors: [
-      { name: "Đen Mờ", hex: "#333333" },
-      { name: "Vàng Đồng", hex: "#DAA520" },
-    ],
-  },
-  {
-    id: "prod13",
-    name: 'Bộ Quà Tặng "Discovery Set"',
-    slug: "bo-qua-tang-discovery-set",
-    category: "phu-kien-qua-tang",
-    shortDescription: "Khám phá 3 mùi hương best-seller.",
-    description:
-      "Bộ quà tặng bao gồm 3 nến ly mini với các mùi hương bán chạy nhất: First Light, Sunday Morning và Hanoi 1990. Món quà hoàn hảo để giới thiệu Flamora đến người thân yêu.",
-    usageInstructions: "Thông tin chi tiết trên từng sản phẩm.",
-    shippingReturns:
-      "Giao hàng trong 2-5 ngày. Đổi trả miễn phí trong 7 ngày nếu có lỗi từ nhà sản xuất.",
-    images: [findImage("product-14-1")],
+      "Giao hàng trong 2-5 ngày. Đổi trả miễn phí trong 7 ngày.",
+    _folder: "set4",
+    _fallbacks: ["product-14-1", "product-12-1"],
     tags: ["Quà tặng", "Bán chạy", "Ưu đãi"],
-    createdAt: "2024-05-05T10:00:00Z",
+    createdAt: "2024-04-01T10:00:00Z",
     popularityScore: 99,
     scents: [
       {
-        id: "s13",
-        name: "Bộ 3 mùi hương",
-        price: 690000,
+        id: "set-4-s1",
+        name: "Tự chọn 4 mùi hương",
+        price: 199000,
         notes: { top: "", mid: "", base: "" },
-        descriptionShort: "",
+        descriptionShort: "4 sáp thơm, bạn chọn mùi",
+      },
+      {
+        id: "set-4-s2",
+        name: "Ngẫu nhiên 4 mùi hương",
+        price: 199000,
+        notes: { top: "", mid: "", base: "" },
+        descriptionShort: "4 sáp thơm, Flamora chọn ngẫu nhiên",
       },
     ],
-    colors: [{ name: "Nhiều màu", hex: "#FFFFFF" }],
   },
 ];
 
+// ─── Live Builders ────────────────────────────────────────────────────────────
+// Build fresh on each API call so it hot-reloads dynamically
+const buildCategories = (): Category[] => {
+  return categoriesBase.map(c => {
+    const { _folder, _fallback, ...rest } = c;
+    const dynamicImages = getImagesFromFolder(_folder);
+    return {
+      ...rest,
+      image: dynamicImages.length > 0 ? dynamicImages[0] : findImage(_fallback)
+    };
+  });
+};
+
+const buildProducts = (): Product[] => {
+  return productsBase.map(p => {
+    const { _folder, _fallbacks, ...rest } = p;
+    const dynamicImages = getImagesFromFolder(_folder);
+    return {
+      ...rest,
+      images: dynamicImages.length > 0 ? dynamicImages : _fallbacks.map(findImage)
+    };
+  });
+};
+
+// ─── Exported API functions ───────────────────────────────────────────────────
 export const getCategories = async (): Promise<Category[]> => {
-  return categories;
+  return buildCategories();
 };
 
 export const getCategoryBySlug = async (
   slug: string,
 ): Promise<Category | undefined> => {
-  return categories.find((c) => c.slug === slug);
+  return buildCategories().find((c) => c.slug === slug);
 };
 
 interface GetProductsParams {
@@ -426,7 +217,7 @@ interface GetProductsParams {
 export const getProducts = async (
   params: GetProductsParams = {},
 ): Promise<Product[]> => {
-  let filteredProducts = [...products];
+  let filteredProducts = buildProducts();
 
   if (params.category) {
     filteredProducts = filteredProducts.filter(
@@ -479,13 +270,13 @@ export const getProducts = async (
 export const getProductBySlug = async (
   slug: string,
 ): Promise<Product | undefined> => {
-  return products.find((p) => p.slug === slug);
+  return buildProducts().find((p) => p.slug === slug);
 };
 
 export const getRelatedProducts = async (
   currentProduct: Product,
 ): Promise<Product[]> => {
-  const related = products.filter(
+  const related = buildProducts().filter(
     (p) => p.category === currentProduct.category && p.id !== currentProduct.id,
   );
   return related.slice(0, 4);

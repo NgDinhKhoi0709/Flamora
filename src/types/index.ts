@@ -31,7 +31,7 @@ export interface Product {
   createdAt: string;
   popularityScore: number;
   scents: Scent[];
-  colors: ProductColor[];
+  colors?: ProductColor[];
 }
 
 export interface Category {
@@ -49,7 +49,7 @@ export interface CartItem {
   productSlug: string;
   productImage: string;
   scent: Scent;
-  color: ProductColor;
+  color?: ProductColor;
   quantity: number;
   unitPrice: number;
 }

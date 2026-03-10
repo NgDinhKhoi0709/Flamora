@@ -119,7 +119,8 @@ export const useCart = () => {
     const totalPrice = state.items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
 
     const addItem = (item: Omit<CartItem, 'id'>) => {
-        const id = `${item.productId}-${item.scent.id}-${item.color.name}`;
+        // We use scent.name instead of scent.id to handle the custom "Tự chọn" option where scent.id is the same but scent.name contains the chosen variants
+        const id = `${item.productId}-${item.scent.name}`;
         dispatch({ type: 'ADD_ITEM', payload: { ...item, id } });
     };
 

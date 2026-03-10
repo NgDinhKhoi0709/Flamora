@@ -33,7 +33,6 @@ export default async function ShopPage({
   // --- FILTER LOGIC ---
   const priceGte = Number(params["price_gte"] ?? "");
   const priceLte = Number(params["price_lte"] ?? "");
-  const selectedColors = ([] as string[]).concat(params["color"] ?? []);
   const selectedScents = ([] as string[]).concat(params["scent"] ?? []);
   const selectedCategories = ([] as string[]).concat(params["cat"] ?? []);
 
@@ -59,19 +58,15 @@ export default async function ShopPage({
         return true;
       });
     }
-    let colorOk = true;
-    if (selectedColors.length > 0) {
-      colorOk = p.colors.some((c) => selectedColors.includes(c.name));
-    }
     let scentOk = true;
     if (selectedScents.length > 0) {
-      scentOk = p.scents.some((s) => selectedScents.includes(s.name));
+      scentOk = p.category === "set-qua-tang" || p.scents.some((s) => selectedScents.includes(s.name));
     }
     let catOk = true;
     if (selectedCategories.length > 0) {
       catOk = selectedCategories.includes(p.category);
     }
-    return priceOk && colorOk && scentOk && catOk;
+    return priceOk && scentOk && catOk;
   });
 
   const totalPages = Math.ceil(allProducts.length / PRODUCTS_PER_PAGE);
@@ -80,14 +75,12 @@ export default async function ShopPage({
     page * PRODUCTS_PER_PAGE,
   );
 
-  const allColors: ProductColor[] = Array.from(
-    new Map(
-      productsForColorFilter.flatMap((p) => p.colors).map((c) => [c.name, c]),
-    ).values(),
-  );
   const allScents: Scent[] = Array.from(
     new Map(
-      productsForColorFilter.flatMap((p) => p.scents).map((s) => [s.id, s]),
+      productsForColorFilter
+        .flatMap((p) => p.scents)
+        .filter((s) => !s.id.startsWith("set-4"))
+        .map((s) => [s.name, s]),
     ).values(),
   );
   const minPrice = 0;
@@ -104,7 +97,6 @@ export default async function ShopPage({
           <div className="md:w-1/4 w-full">
             <ProductAdvancedFilters
               categories={categories}
-              allColors={allColors}
               allScents={allScents}
               minPrice={minPrice}
               maxPrice={maxPrice}

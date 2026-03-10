@@ -12,6 +12,27 @@ export function ProductGallery({
   name: string;
 }) {
   const [active, setActive] = React.useState(0);
+
+  React.useEffect(() => {
+    const handleScentChange = (e: Event) => {
+      const customEvent = e as CustomEvent<{ scentName: string }>;
+      const scentName = customEvent.detail?.scentName;
+      if (!scentName) return;
+
+      // Extract the english name from "Lavender Dream — Oải Hương" -> "lavender_dream"
+      const scentKey = scentName.split('—')[0].trim().toLowerCase().replace(/\s+/g, '_');
+      
+      // Find matching image (e.g. "lavender_dream.png")
+      const index = images.findIndex(img => img.toLowerCase().includes(scentKey));
+      if (index >= 0) {
+        setActive(index);
+      }
+    };
+
+    window.addEventListener('scentChanged', handleScentChange);
+    return () => window.removeEventListener('scentChanged', handleScentChange);
+  }, [images]);
+
   return (
     <>
       <div className="aspect-square relative rounded-lg overflow-hidden shadow-lg">
@@ -22,7 +43,7 @@ export function ProductGallery({
             animate={{ opacity: i === active ? 1 : 0, x: 0 }}
             transition={{
               duration: 0.5,
-              ease: motionTokens.easing.soft,
+              ease: motionTokens.easing.soft as any,
             }}
             style={{
               position: "absolute",

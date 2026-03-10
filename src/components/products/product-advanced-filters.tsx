@@ -9,7 +9,6 @@ import { ProductColor, Scent, Category } from "@/types";
 
 interface ProductAdvancedFiltersProps {
   categories: Category[];
-  allColors: ProductColor[];
   allScents: Scent[];
   minPrice: number;
   maxPrice: number;
@@ -17,7 +16,6 @@ interface ProductAdvancedFiltersProps {
 
 export function ProductAdvancedFilters({
   categories,
-  allColors,
   allScents,
   minPrice,
   maxPrice,
@@ -54,7 +52,6 @@ export function ProductAdvancedFilters({
     priceGte,
     priceLte,
   ]);
-  const selectedColors = searchParams.getAll("color");
   const selectedScents = searchParams.getAll("scent");
   const selectedCategories = searchParams.getAll("cat");
 
@@ -73,12 +70,6 @@ export function ProductAdvancedFilters({
     params.set("price_lte", String(maxV));
     params.delete("page");
     router.push(pathname + "?" + params.toString());
-  };
-  const handleColorChange = (color: string) => {
-    let next = [...selectedColors];
-    if (next.includes(color)) next = next.filter((c) => c !== color);
-    else next.push(color);
-    router.push(pathname + "?" + createQueryString("color", next));
   };
   const handleScentChange = (scent: string) => {
     let next = [...selectedScents];
@@ -134,25 +125,6 @@ export function ProductAdvancedFilters({
                   onCheckedChange={() => handleCategoryChange(cat.slug)}
                 />
                 <span>{cat.name}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-        {/* Màu sắc */}
-        <div>
-          <h4 className="font-semibold mb-2">Màu sắc</h4>
-          <div className="flex flex-col gap-1">
-            {allColors.map((color) => (
-              <label key={color.name} className="flex items-center gap-2">
-                <Checkbox
-                  checked={selectedColors.includes(color.name)}
-                  onCheckedChange={() => handleColorChange(color.name)}
-                />
-                <span
-                  className="w-4 h-4 rounded-full inline-block"
-                  style={{ background: color.hex }}
-                />
-                <span>{color.name}</span>
               </label>
             ))}
           </div>

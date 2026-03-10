@@ -206,7 +206,7 @@ export default function CheckoutPage() {
                               </p>
                             </div>
                             <p className="mt-1 text-xs text-muted-foreground">
-                              {item.scent.name} / {item.color.name}
+                              {item.scent.name}
                             </p>
                           </div>
                           <div className="flex flex-1 items-end justify-between text-xs">

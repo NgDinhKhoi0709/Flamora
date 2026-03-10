@@ -106,7 +106,7 @@ export default function OrderDetailPage() {
                       </p>
                     </div>
                     <p className="mt-1 text-xs text-muted-foreground">
-                      {item.scent.name} / {item.color.name}
+                      {item.scent.name}
                     </p>
                     <p className="mt-1 text-xs text-muted-foreground">
                       Số lượng: {item.quantity}
