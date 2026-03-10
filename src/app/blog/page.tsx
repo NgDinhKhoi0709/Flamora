@@ -2,7 +2,11 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/layout/ScrollReveal";
+import {
+  ScrollReveal,
+  StaggerContainer,
+  StaggerItem,
+} from "@/components/layout/ScrollReveal";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, BookOpen, Clock } from "lucide-react";
@@ -12,12 +16,11 @@ const posts = [
     slug: "gioi-thieu-flamora",
     title: "Giới thiệu Flamora",
     excerpt:
-      "Câu chuyện và sứ mệnh phía sau thương hiệu nến thơm được yêu thích nhất Việt Nam.",
+      "Câu chuyện và sứ mệnh phía sau thương hiệu sáp thơm treo được yêu thích tại Việt Nam.",
     category: "Thương hiệu",
     date: "15/01/2024",
     readTime: "5 phút đọc",
-    image:
-      "https://images.unsplash.com/photo-1602523961358-f9e9e68b5a4d?auto=format&fit=crop&w=600&q=80",
+    image: "/sap_thom/set4/set4_2.jpg",
     featured: true,
   },
   {
@@ -28,20 +31,18 @@ const posts = [
     category: "Hướng dẫn",
     date: "10/01/2024",
     readTime: "8 phút đọc",
-    image:
-      "https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=600&q=80",
+    image: "/sap_thom/mui_huong.jpg",
     featured: false,
   },
   {
     slug: "nen-thom-va-thien",
-    title: "Nến thơm và Thiền định",
+    title: "Sáp thơm và Thiền định",
     excerpt:
-      "Khám phá cách sử dụng nến thơm để tạo không gian thiền định, thư giãn và tập trung hơn.",
+      "Khám phá cách sử dụng sáp thơm (treo/đặt) để tạo không gian thiền định, thư giãn và tập trung hơn.",
     category: "Lối sống",
     date: "05/01/2024",
     readTime: "6 phút đọc",
-    image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80",
+    image: "/sap_thom/phong_ngu/lavender_dream.png",
     featured: false,
   },
 ];
@@ -86,7 +87,7 @@ export default function BlogPage() {
                       alt={featuredPost.title}
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      data-ai-hint="candle ambiance"
+                      data-ai-hint="scent ambiance"
                     />
                     <div className="absolute top-4 left-4">
                       <Badge className="bg-primary text-primary-foreground">
@@ -136,7 +137,7 @@ export default function BlogPage() {
                       alt={post.title}
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
-                      data-ai-hint="candle lifestyle"
+                      data-ai-hint="scent lifestyle"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </div>

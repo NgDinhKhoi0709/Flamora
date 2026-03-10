@@ -69,7 +69,7 @@ const values = [
     icon: Shield,
     title: "An toàn",
     description:
-      "Tinh dầu đạt chứng nhận an toàn, bấc cotton không chì, không phthalates.",
+      "Tinh dầu đạt chứng nhận an toàn, công thức dịu nhẹ, không phthalates.",
   },
   {
     icon: Sparkles,
@@ -106,8 +106,9 @@ export default function AboutPage() {
               <span className="italic text-primary">Flamora</span>
             </h1>
             <p className="mt-6 text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto">
-              Just Hang It, Just Breathe Fresh. Chúng tôi tin rằng ánh sáng
-              không chỉ để soi rọi, mà còn để sưởi ấm tâm hồn.
+              Just Hang It, Just Breathe Fresh. Chúng tôi tin rằng một mùi hương
+              dịu nhẹ có thể làm mềm nhịp sống, giúp bạn thở sâu hơn và thấy an
+              yên hơn.
             </p>
           </ScrollReveal>
         </div>
@@ -126,9 +127,9 @@ export default function AboutPage() {
               </h2>
               <p className="leading-relaxed mt-4">
                 Flamora ra đời từ tình yêu với những mùi hương tinh tế và niềm
-                tin vào sức mạnh chữa lành của ánh sáng dịu dàng. Chúng tôi muốn
-                tạo ra không chỉ là những ngọn nến, mà là những trải nghiệm,
-                những khoảnh khắc bình yên và thư thái trong cuộc sống hối hả.
+                tin vào sức mạnh chữa lành của hương thơm. Chúng tôi muốn tạo ra
+                không chỉ là những miếng sáp thơm treo, mà là những trải nghiệm
+                — những khoảnh khắc bình yên và thư thái trong cuộc sống hối hả.
               </p>
               <p className="leading-relaxed">
                 Hành trình của chúng tôi bắt đầu trong một gian bếp nhỏ, với
@@ -147,11 +148,11 @@ export default function AboutPage() {
             <div className="aspect-square relative rounded-2xl overflow-hidden shadow-soft-lg group">
               {aboutImage1 && (
                 <Image
-                  src={aboutImage1.imageUrl}
-                  alt={aboutImage1.description}
+                  src="/thumb_2.png"
+                  alt={aboutImage1?.description || "Bắt đầu từ Đam mê"}
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  data-ai-hint={aboutImage1.imageHint}
+                  data-ai-hint={aboutImage1?.imageHint || "story"}
                 />
               )}
               <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-black/5" />
@@ -204,14 +205,14 @@ export default function AboutPage() {
               <p className="leading-relaxed mt-4">
                 Chất lượng là ưu tiên hàng đầu tại Flamora. Chúng tôi tỉ mỉ lựa
                 chọn những nguyên liệu bền vững và thân thiện với môi trường.
-                Sáp nến của chúng tôi là hỗn hợp sáp cọ và sáp đậu nành tự
-                nhiên, đảm bảo cháy sạch và an toàn.
+                Sáp thơm của chúng tôi là hỗn hợp sáp cọ và sáp đậu nành tự
+                nhiên, giúp hương thơm lan tỏa dịu nhẹ và bền mùi.
               </p>
               <p className="leading-relaxed">
-                Bấc nến được làm từ sợi cotton không chì, và các loại tinh dầu
-                hương liệu chúng tôi sử dụng đều đạt chứng nhận an toàn, không
-                chứa phthalates. Mỗi sản phẩm đều được đổ bằng tay với sự chăm
-                chút tối đa tại xưởng với tiêu chuẩn nghiêm ngặt.
+                Các loại tinh dầu hương liệu chúng tôi sử dụng đều đạt chứng
+                nhận an toàn, không chứa phthalates. Mỗi sản phẩm đều được tạo
+                hình thủ công với sự chăm chút tối đa tại xưởng theo tiêu chuẩn
+                nghiêm ngặt.
               </p>
             </div>
           </ScrollReveal>
@@ -224,11 +225,11 @@ export default function AboutPage() {
             <div className="aspect-square relative rounded-2xl overflow-hidden shadow-soft-lg group">
               {aboutImage2 && (
                 <Image
-                  src={aboutImage2.imageUrl}
-                  alt={aboutImage2.description}
+                  src="/thumb_3.png"
+                  alt={aboutImage2?.description || "Cam kết về Chất lượng"}
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  data-ai-hint={aboutImage2.imageHint}
+                  data-ai-hint={aboutImage2?.imageHint || "quality"}
                 />
               )}
               <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-black/5" />

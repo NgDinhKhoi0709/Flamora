@@ -7,16 +7,26 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ProductCard } from "@/components/products/product-card";
-import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/layout/ScrollReveal";
+import {
+  ScrollReveal,
+  StaggerContainer,
+  StaggerItem,
+} from "@/components/layout/ScrollReveal";
 import type { Category, Product } from "@/types";
 
 interface HomeContentProps {
   categories: Category[];
   products: Product[];
-  storyImage: { imageUrl: string; description: string; imageHint?: string } | undefined;
+  storyImage:
+    | { imageUrl: string; description: string; imageHint?: string }
+    | undefined;
 }
 
-export function HomeContent({ categories, products, storyImage }: HomeContentProps) {
+export function HomeContent({
+  categories,
+  products,
+  storyImage,
+}: HomeContentProps) {
   return (
     <>
       {/* Storytelling Section */}
@@ -34,17 +44,21 @@ export function HomeContent({ categories, products, storyImage }: HomeContentPro
                 <span className="italic text-primary">Flamora</span>
               </h2>
               <p className="text-base md:text-lg leading-relaxed mt-6">
-                Tại Flamora, chúng tôi tin rằng ánh sáng không chỉ để soi rọi, mà
-                còn để sưởi ấm tâm hồn. Mỗi ngọn nến được tạo ra từ niềm đam mê
-                mang đến &ldquo;một loại ánh sáng dịu dàng hơn&rdquo; — một thứ ánh sáng của
-                sự bình yên, thư thái và những khoảnh khắc chiêm nghiệm.
+                Tại Flamora, chúng tôi tin rằng hương thơm không chỉ để làm
+                thơm, mà còn để nâng niu cảm xúc. Mỗi miếng sáp thơm được tạo ra
+                từ niềm đam mê mang đến sự bình yên, thư thái và những khoảnh
+                khắc chiêm nghiệm trong nhịp sống hằng ngày.
               </p>
               <p className="text-base md:text-lg leading-relaxed">
                 Chúng tôi tỉ mỉ lựa chọn những nguyên liệu tự nhiên, từ sáp cọ,
                 sáp đậu nành đến các loại tinh dầu thuần khiết nhất, để tạo nên
                 những mùi hương độc đáo.
               </p>
-              <Button asChild variant="link" className="p-0 text-lg text-primary group mt-2">
+              <Button
+                asChild
+                variant="link"
+                className="p-0 text-lg text-primary group mt-2"
+              >
                 <Link href="/about" className="flex items-center gap-2">
                   Khám phá thêm
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -52,12 +66,17 @@ export function HomeContent({ categories, products, storyImage }: HomeContentPro
               </Button>
             </div>
           </ScrollReveal>
-          <ScrollReveal direction="right" distance={50} duration={0.7} delay={0.15}>
+          <ScrollReveal
+            direction="right"
+            distance={50}
+            duration={0.7}
+            delay={0.15}
+          >
             <div className="aspect-square relative rounded-2xl overflow-hidden shadow-soft-lg group">
               {storyImage && (
                 <Image
-                  src={storyImage.imageUrl}
-                  alt={storyImage.description}
+                  src="/thumb_2.png"
+                  alt={storyImage.description || "Câu chuyện của Flamora"}
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                   data-ai-hint={storyImage.imageHint}
@@ -85,7 +104,8 @@ export function HomeContent({ categories, products, storyImage }: HomeContentPro
               Danh mục sản phẩm
             </h2>
             <p className="mt-4 max-w-2xl mx-auto text-muted-foreground text-base md:text-lg">
-              Tìm kiếm sản phẩm hoàn hảo cho không gian của bạn hoặc một món quà ý nghĩa.
+              Tìm kiếm sản phẩm hoàn hảo cho không gian của bạn hoặc một món quà
+              ý nghĩa.
             </p>
           </ScrollReveal>
           <StaggerContainer
@@ -94,7 +114,10 @@ export function HomeContent({ categories, products, storyImage }: HomeContentPro
           >
             {categories.map((category) => (
               <StaggerItem key={category.id} direction="zoom">
-                <Link href={`/category/${category.slug}`} className="group block">
+                <Link
+                  href={`/category/${category.slug}`}
+                  className="group block"
+                >
                   <Card className="overflow-hidden transition-all duration-500 group-hover:shadow-card-hover group-hover:-translate-y-2 border-0 bg-card">
                     <CardContent className="p-0 relative">
                       <div className="aspect-square relative overflow-hidden bg-gray-100">
@@ -106,7 +129,7 @@ export function HomeContent({ categories, products, storyImage }: HomeContentPro
                           alt={`Danh mục ${category.name}`}
                           fill
                           className="object-cover transition-transform duration-700 group-hover:scale-110"
-                          data-ai-hint="candle product"
+                          data-ai-hint="wax sachet product"
                         />
                         {/* Hover overlay */}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -182,7 +205,8 @@ export function HomeContent({ categories, products, storyImage }: HomeContentPro
                   Đăng ký nhận tin
                 </CardTitle>
                 <p className="text-muted-foreground pt-3 text-base max-w-md mx-auto">
-                  Nhận thông tin về sản phẩm mới và các chương trình ưu đãi đặc biệt.
+                  Nhận thông tin về sản phẩm mới và các chương trình ưu đãi đặc
+                  biệt.
                 </p>
               </CardHeader>
               <CardContent className="pt-4 pb-8">

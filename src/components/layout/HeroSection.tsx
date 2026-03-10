@@ -30,8 +30,8 @@ export function HeroSection({ heroImage }: { heroImage: any }) {
           className="absolute inset-0 will-change-transform"
         >
           <Image
-            src={heroImage.imageUrl}
-            alt={heroImage.description}
+            src="/thumb_1.png"
+            alt={heroImage?.description || "Flamora Atelier"}
             fill
             priority
             className="object-cover scale-110"
@@ -115,8 +115,8 @@ export function HeroSection({ heroImage }: { heroImage: any }) {
           className="mt-6 max-w-lg text-base md:text-lg text-white font-light leading-relaxed"
           style={{ willChange: "opacity, transform" }}
         >
-          Khám phá hương thơm tinh tế, thắp lên không gian sống ấm áp và dịu
-          dàng.
+          Khám phá hương thơm tinh tế, lan tỏa sự ấm áp và dịu dàng cho không
+          gian sống.
         </motion.p>
 
         <motion.div

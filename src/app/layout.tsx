@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "Flamora Atelier - Just Hang It, Just Breathe Fresh",
   description:
-    'Khám phá thế giới nến thơm tinh tế và ấm áp từ Flamora. Mỗi sản phẩm là một câu chuyện hương thơm, mang đến không gian sống của bạn "một loại ánh sáng dịu dàng hơn".',
+    "Khám phá thế giới sáp thơm tinh tế từ Flamora. Chỉ cần treo lên hoặc đặt đúng chỗ, hương thơm sẽ lan tỏa dịu nhẹ, giúp không gian sống của bạn luôn dễ chịu và thư thái.",
   icons: {
     icon: "/favicon.png",
   },
