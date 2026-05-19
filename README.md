@@ -1,12 +1,12 @@
 # Flamora Atelier
 
-Flamora Atelier la project ca nhan ve vibecode, duoc xay dung nhu mot website e-commerce cho thuong hieu nen thom gia tuong Flamora. Project nay tap trung vao viec thu nghiem workflow phat trien nhanh, giao dien hien dai va trai nghiem mua sam truc quan bang Next.js.
+Flamora Atelier is a personal vibecode project built as an e-commerce website for a fictional scented candle brand. The project focuses on experimenting with fast product-building workflows, modern interface design, and a smooth shopping experience powered by Next.js.
 
-## Trang chu
+## Homepage
 
 ![Flamora Atelier homepage](public/imgs/Flamora_Atelier.png)
 
-## Cong nghe su dung
+## Tech Stack
 
 - Next.js
 - React
@@ -14,28 +14,28 @@ Flamora Atelier la project ca nhan ve vibecode, duoc xay dung nhu mot website e-
 - Tailwind CSS
 - Firebase/Genkit
 
-## Chay project
+## Getting Started
 
-Cai dat dependencies:
+Install the dependencies:
 
 ```bash
 npm install
 ```
 
-Chay development server:
+Run the development server:
 
 ```bash
 npm run dev
 ```
 
-Mo [http://localhost:9002](http://localhost:9002) tren trinh duyet de xem website.
+Open [http://localhost:9002](http://localhost:9002) in your browser to view the website.
 
-## Build production
+## Production Build
 
 ```bash
 npm run build
 ```
 
-## Ghi chu
+## Notes
 
-Du lieu hien tai la mock data nam trong `src/data/mock-data.ts`. Project duoc phat trien phuc vu muc dich hoc tap, thuc hanh vibecode va thu nghiem y tuong giao dien.
+The current application uses mock data from `src/data/mock-data.ts`. This project is developed for learning, vibecode practice, and experimenting with interface ideas.
