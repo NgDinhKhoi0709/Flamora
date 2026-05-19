@@ -1,42 +1,41 @@
 # Flamora Atelier
 
-This is a Next.js e-commerce website for the fictional candle brand, Flamora. It was bootstrapped with Firebase Studio.
+Flamora Atelier la project ca nhan ve vibecode, duoc xay dung nhu mot website e-commerce cho thuong hieu nen thom gia tuong Flamora. Project nay tap trung vao viec thu nghiem workflow phat trien nhanh, giao dien hien dai va trai nghiem mua sam truc quan bang Next.js.
 
-## Getting Started
+## Trang chu
 
-First, install the dependencies:
+![Flamora Atelier homepage](public/imgs/Flamora_Atelier.png)
+
+## Cong nghe su dung
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- Firebase/Genkit
+
+## Chay project
+
+Cai dat dependencies:
 
 ```bash
 npm install
 ```
 
-Then, run the development server:
+Chay development server:
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:9002](http://localhost:9002) with your browser to see the result.
+Mo [http://localhost:9002](http://localhost:9002) tren trinh duyet de xem website.
 
-## Building for Production
-
-To create a production-ready build, run:
+## Build production
 
 ```bash
 npm run build
 ```
 
-## Deploy on Vercel
+## Ghi chu
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-This project can be deployed to Vercel without any environment variables.
-
-## Future Enhancements
-
-The current application uses mock data located in `src/data/mock-data.ts`. To transition to a production-ready application, you can replace this mock data service with a real database or a headless CMS.
-
-Some popular options include:
-- **Database + ORM**: PostgreSQL with Prisma
-- **Backend-as-a-Service**: Supabase or Firebase
-- **Headless CMS**: Sanity, Contentful, or Strapi
+Du lieu hien tai la mock data nam trong `src/data/mock-data.ts`. Project duoc phat trien phuc vu muc dich hoc tap, thuc hanh vibecode va thu nghiem y tuong giao dien.
