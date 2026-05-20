@@ -191,6 +191,7 @@ const buildProducts = (): Product[] => {
     const dynamicImages = getImagesFromFolder(_folder);
     return {
       ...rest,
+      tags: rest.tags as Product["tags"],
       images: dynamicImages.length > 0 ? dynamicImages : _fallbacks.map(findImage)
     };
   });

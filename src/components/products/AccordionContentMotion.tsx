@@ -14,12 +14,13 @@ export function AccordionContentMotion({
   React.useEffect(() => {
     const node = ref.current?.parentElement;
     if (!node) return;
+    const parentNode = node;
     function update() {
-      setOpen(node.getAttribute("data-state") === "open");
+      setOpen(parentNode.getAttribute("data-state") === "open");
     }
     update();
     const observer = new MutationObserver(update);
-    observer.observe(node, {
+    observer.observe(parentNode, {
       attributes: true,
       attributeFilter: ["data-state"],
     });

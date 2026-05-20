@@ -1,53 +1,27 @@
 import "server-only";
 
-import { promises as fs } from "fs";
-import path from "path";
-import crypto from "crypto";
 import bcrypt from "bcryptjs";
 
 import type { UserRole } from "@/types";
+import { prisma } from "@/lib/prisma";
 
 export type StoredUser = {
   id: string;
   name: string;
   email: string;
   passwordHash: string;
-  role: UserRole;
-  createdAt: number;
+  role: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
-
-const STORE_DIR = path.join(process.cwd(), ".flamora");
-const USERS_FILE = path.join(STORE_DIR, "users.json");
-
-async function ensureStoreDir() {
-  await fs.mkdir(STORE_DIR, { recursive: true });
-}
-
-async function readUsers(): Promise<StoredUser[]> {
-  try {
-    const raw = await fs.readFile(USERS_FILE, "utf8");
-    const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed)) return [];
-    return parsed as StoredUser[];
-  } catch (error: any) {
-    if (error?.code === "ENOENT") return [];
-    throw error;
-  }
-}
-
-async function writeUsers(users: StoredUser[]) {
-  await ensureStoreDir();
-  const tempFile = `${USERS_FILE}.${crypto.randomBytes(8).toString("hex")}.tmp`;
-  await fs.writeFile(tempFile, JSON.stringify(users, null, 2), "utf8");
-  await fs.rename(tempFile, USERS_FILE);
-}
 
 export async function getUserByEmail(
   email: string,
 ): Promise<StoredUser | null> {
   const normalizedEmail = email.trim().toLowerCase();
-  const users = await readUsers();
-  return users.find((u) => u.email.toLowerCase() === normalizedEmail) ?? null;
+  return prisma.user.findUnique({
+    where: { email: normalizedEmail },
+  });
 }
 
 export async function createUser(params: {
@@ -57,28 +31,26 @@ export async function createUser(params: {
   role?: UserRole;
 }): Promise<StoredUser> {
   const normalizedEmail = params.email.trim().toLowerCase();
-  const users = await readUsers();
-
-  const existing = users.find((u) => u.email.toLowerCase() === normalizedEmail);
-  if (existing) {
-    const error = new Error("EMAIL_EXISTS");
-    (error as any).code = "EMAIL_EXISTS";
-    throw error;
-  }
 
   const passwordHash = await bcrypt.hash(params.password, 10);
-  const user: StoredUser = {
-    id: crypto.randomUUID(),
-    name: params.name.trim(),
-    email: normalizedEmail,
-    passwordHash,
-    role: params.role ?? ("user" as UserRole),
-    createdAt: Date.now(),
-  };
 
-  users.push(user);
-  await writeUsers(users);
-  return user;
+  try {
+    return await prisma.user.create({
+      data: {
+        name: params.name.trim(),
+        email: normalizedEmail,
+        passwordHash,
+        role: params.role ?? "user",
+      },
+    });
+  } catch (error: any) {
+    if (error?.code === "P2002") {
+      const duplicateError = new Error("EMAIL_EXISTS");
+      (duplicateError as any).code = "EMAIL_EXISTS";
+      throw duplicateError;
+    }
+    throw error;
+  }
 }
 
 export async function verifyUserPassword(params: {

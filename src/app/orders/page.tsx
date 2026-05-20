@@ -1,41 +1,33 @@
-"use client";
+import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { Package } from "lucide-react";
 
-import { useOrders } from "@/context/order-context";
-import { formatPrice } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardHeader,
-  CardTitle,
   CardFooter,
+  CardHeader,
 } from "@/components/ui/card";
-import Link from "next/link";
-import { useIsHydrated } from "@/hooks/use-is-hydrated";
-import { Package } from "lucide-react";
+import { authOptions } from "@/lib/auth-options";
+import { getOrdersForUser } from "@/lib/order-store";
+import { formatPrice } from "@/lib/utils";
 
-export default function OrdersPage() {
-  const { orders } = useOrders();
-  const isHydrated = useIsHydrated();
-
-  if (!isHydrated) {
-    return (
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
-        <p>Đang tải lịch sử đơn hàng...</p>
-      </div>
-    );
-  }
+export default async function OrdersPage() {
+  const session = await getServerSession(authOptions);
+  const userId = (session?.user as any)?.id;
+  const orders = userId ? await getOrdersForUser(userId) : [];
 
   if (orders.length === 0) {
     return (
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
         <Package className="h-16 w-16 text-muted-foreground mx-auto" />
-        <h1 className="mt-4 text-4xl font-headline">Chưa có đơn hàng nào</h1>
+        <h1 className="mt-4 text-4xl font-headline">No orders yet</h1>
         <p className="mt-4 text-lg text-muted-foreground">
-          Tất cả đơn hàng bạn đặt sẽ được hiển thị ở đây.
+          Orders you place will appear here.
         </p>
         <Button asChild size="lg" className="mt-8">
-          <Link href="/san-pham">Bắt đầu mua sắm</Link>
+          <Link href="/san-pham">Start shopping</Link>
         </Button>
       </div>
     );
@@ -45,7 +37,7 @@ export default function OrdersPage() {
     <div className="bg-secondary/50 min-h-full py-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-4xl font-headline text-center mb-12">
-          Lịch sử đơn hàng
+          Order history
         </h1>
         <div className="max-w-4xl mx-auto space-y-6">
           {orders.map((order) => (
@@ -53,13 +45,13 @@ export default function OrdersPage() {
               <CardHeader className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div>
                   <p className="text-xs text-muted-foreground uppercase">
-                    Mã đơn hàng
+                    Order ID
                   </p>
                   <p className="text-sm font-medium font-mono">{order.id}</p>
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground uppercase">
-                    Ngày đặt
+                    Date
                   </p>
                   <p className="text-sm font-medium">
                     {new Date(order.createdAt).toLocaleDateString("vi-VN")}
@@ -67,7 +59,7 @@ export default function OrdersPage() {
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground uppercase">
-                    Tổng tiền
+                    Total
                   </p>
                   <p className="text-sm font-medium">
                     {formatPrice(order.total)}
@@ -75,7 +67,7 @@ export default function OrdersPage() {
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground uppercase">
-                    Trạng thái
+                    Status
                   </p>
                   <p className="text-sm font-medium capitalize">
                     {order.status}
@@ -83,7 +75,7 @@ export default function OrdersPage() {
                 </div>
               </CardHeader>
               <CardContent className="border-t pt-4">
-                <p className="text-sm font-medium mb-2">Sản phẩm:</p>
+                <p className="text-sm font-medium mb-2">Products:</p>
                 <ul className="text-sm text-muted-foreground list-disc list-inside">
                   {order.items.map((item) => (
                     <li key={item.id}>
@@ -94,7 +86,7 @@ export default function OrdersPage() {
               </CardContent>
               <CardFooter className="bg-secondary/30">
                 <Button asChild variant="ghost" className="text-primary">
-                  <Link href={`/orders/${order.id}`}>Xem chi tiết</Link>
+                  <Link href={`/orders/${order.id}`}>View details</Link>
                 </Button>
               </CardFooter>
             </Card>

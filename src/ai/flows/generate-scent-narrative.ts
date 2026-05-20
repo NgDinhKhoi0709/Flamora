@@ -1,14 +1,13 @@
 "use server";
 /**
- * @fileOverview An AI agent that generates poetic and brand-aligned scent narratives for Flamora candles.
+ * @fileOverview Generates poetic and brand-aligned scent narratives for Flamora candles.
  *
- * - generateScentNarrative - A function that handles the scent narrative generation process.
- * - GenerateScentNarrativeInput - The input type for the generateScentNarrative function.
- * - GenerateScentNarrativeOutput - The return type for the generateScentNarrative function.
+ * - generateScentNarrative - Handles scent narrative generation.
+ * - GenerateScentNarrativeInput - The input type for generateScentNarrative.
+ * - GenerateScentNarrativeOutput - The return type for generateScentNarrative.
  */
 
-import { ai } from "@/ai/genkit";
-import { z } from "genkit";
+import { z } from "zod";
 
 const GenerateScentNarrativeInputSchema = z.object({
   topNotes: z
@@ -45,37 +44,80 @@ export type GenerateScentNarrativeOutput = z.infer<
 export async function generateScentNarrative(
   input: GenerateScentNarrativeInput,
 ): Promise<GenerateScentNarrativeOutput> {
-  return generateScentNarrativeFlow(input);
+  const validatedInput = GenerateScentNarrativeInputSchema.parse(input);
+  const apiKey =
+    process.env.GEMINI_API_KEY ??
+    process.env.GOOGLE_GENAI_API_KEY ??
+    process.env.GOOGLE_API_KEY;
+
+  if (!apiKey) {
+    throw new Error(
+      "Missing Gemini API key. Set GEMINI_API_KEY, GOOGLE_GENAI_API_KEY, or GOOGLE_API_KEY.",
+    );
+  }
+
+  const response = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        contents: [
+          {
+            role: "user",
+            parts: [
+              {
+                text: buildPrompt(validatedInput),
+              },
+            ],
+          },
+        ],
+        generationConfig: {
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: "object",
+            properties: {
+              narrative: {
+                type: "string",
+              },
+            },
+            required: ["narrative"],
+          },
+        },
+      }),
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error(`Gemini request failed with status ${response.status}.`);
+  }
+
+  const data = await response.json();
+  const text = data.candidates?.[0]?.content?.parts
+    ?.map((part: { text?: string }) => part.text ?? "")
+    .join("")
+    .trim();
+
+  if (!text) {
+    throw new Error("Gemini returned an empty narrative response.");
+  }
+
+  return GenerateScentNarrativeOutputSchema.parse(JSON.parse(text));
 }
 
-const prompt = ai.definePrompt({
-  name: "generateScentNarrativePrompt",
-  input: { schema: GenerateScentNarrativeInputSchema },
-  output: { schema: GenerateScentNarrativeOutputSchema },
-  prompt: `You are a creative writer for FLAMORA, a candle brand known for "Just Hang It, Just Breathe Fresh".
+function buildPrompt(input: GenerateScentNarrativeInput) {
+  return `You are a creative writer for FLAMORA, a candle brand known for "Just Hang It, Just Breathe Fresh".
 Your style is minimalist, warm, sophisticated, and uses language that evokes a sense of peace and natural elegance, often associated with dried flowers and soft, creamy tones.
 
 Craft a poetic and concise narrative (2-4 sentences) that describes a candle scent based on its notes.
 
 Scent Notes:
-Top: {{{topNotes}}}
-Mid: {{{midNotes}}}
-Base: {{{baseNotes}}}
-
-Example Output: "Hương đầu tươi mát từ cam bergamot mở ra cánh cửa dẫn lối vào vườn hồng buổi sớm, nơi nốt giữa của hoa hồng Bungari hòa quyện tinh tế. Nền hương gỗ đàn hương và hổ phách dịu nhẹ, ôm trọn không gian trong sự ấm áp và yên bình."
+Top: ${input.topNotes}
+Mid: ${input.midNotes}
+Base: ${input.baseNotes}
 
 Generate the narrative for the provided notes, aligning with the Flamora brand aesthetic.
-`,
-});
-
-const generateScentNarrativeFlow = ai.defineFlow(
-  {
-    name: "generateScentNarrativeFlow",
-    inputSchema: GenerateScentNarrativeInputSchema,
-    outputSchema: GenerateScentNarrativeOutputSchema,
-  },
-  async (input) => {
-    const { output } = await prompt(input);
-    return output!;
-  },
-);
+Return only JSON that matches this shape: {"narrative":"..."}.`;
+}

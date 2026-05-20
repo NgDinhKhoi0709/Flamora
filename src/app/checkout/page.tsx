@@ -25,7 +25,6 @@ import {
 } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { handleCheckout } from "@/lib/actions";
-import { useOrders } from "@/context/order-context";
 
 const checkoutSchema = z.object({
   name: z.string().min(2, "Tên phải có ít nhất 2 ký tự."),
@@ -41,7 +40,6 @@ const checkoutSchema = z.object({
 export default function CheckoutPage() {
   const router = useRouter();
   const { items, totalPrice, totalItems, clearCart } = useCart();
-  const { addOrder } = useOrders();
   const { toast } = useToast();
   const { data: session, status } = useSession();
 
@@ -77,20 +75,23 @@ export default function CheckoutPage() {
     }
 
     if (result?.errors) {
+      const fieldErrors = result.errors as Partial<
+        Record<"name" | "phone" | "address", string[]>
+      >;
+
       toast({
         variant: "destructive",
         title: "Lỗi",
         description: "Vui lòng kiểm tra lại thông tin.",
       });
       // Set form errors manually if needed
-      if (result.errors.name)
-        form.setError("name", { message: result.errors.name[0] });
-      if (result.errors.phone)
-        form.setError("phone", { message: result.errors.phone[0] });
-      if (result.errors.address)
-        form.setError("address", { message: result.errors.address[0] });
-    } else if (result?.success && result.orderId && result.orderData) {
-      addOrder(result.orderData);
+      if (fieldErrors.name)
+        form.setError("name", { message: fieldErrors.name[0] });
+      if (fieldErrors.phone)
+        form.setError("phone", { message: fieldErrors.phone[0] });
+      if (fieldErrors.address)
+        form.setError("address", { message: fieldErrors.address[0] });
+    } else if (result?.success && result.orderId) {
       clearCart();
       router.push(`/orders/${result.orderId}?success=true`);
     } else {

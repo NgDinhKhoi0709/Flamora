@@ -1,5 +1,6 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+
 import { UserRole } from "@/types";
 import { verifyUserPassword } from "@/lib/user-store";
 
@@ -13,51 +14,28 @@ export const authOptions: NextAuthOptions = {
           type: "email",
           placeholder: "admin@flamora.vn",
         },
-        password: { label: "Mật khẩu", type: "password" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        // Mock authentication logic
-        if (
-          credentials?.email === "admin@flamora.vn" &&
-          credentials?.password === "Admin123!"
-        ) {
-          return {
-            id: "1",
-            name: "Flamora Admin",
-            email: "admin@flamora.vn",
-            role: "admin" as UserRole,
-          };
+        if (!credentials?.email || !credentials?.password) {
+          return null;
         }
 
-        if (
-          credentials?.email === "user@gmail.com" &&
-          credentials?.password === "User123!"
-        ) {
-          return {
-            id: "2",
-            name: "Gia Bảo",
-            email: "user@gmail.com",
-            role: "user" as UserRole,
-          };
+        const user = await verifyUserPassword({
+          email: credentials.email,
+          password: credentials.password,
+        });
+
+        if (!user) {
+          return null;
         }
 
-        if (credentials?.email && credentials?.password) {
-          const user = await verifyUserPassword({
-            email: credentials.email,
-            password: credentials.password,
-          });
-
-          if (user) {
-            return {
-              id: user.id,
-              name: user.name,
-              email: user.email,
-              role: user.role,
-            };
-          }
-        }
-
-        return null;
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role as UserRole,
+        };
       },
     }),
   ],

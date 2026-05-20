@@ -1,35 +1,51 @@
-"use client";
+import Image from "next/image";
+import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { notFound } from "next/navigation";
+import { CheckCircle2 } from "lucide-react";
 
-import { useSearchParams, notFound, useParams } from "next/navigation";
-import { useOrders } from "@/context/order-context";
-import { formatPrice } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
+  CardFooter,
   CardHeader,
   CardTitle,
-  CardFooter,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
-import Image from "next/image";
-import { CheckCircle2 } from "lucide-react";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
+import { authOptions } from "@/lib/auth-options";
+import { getOrderByIdForUser } from "@/lib/order-store";
+import { formatPrice } from "@/lib/utils";
 
-export default function OrderDetailPage() {
-  const params = useParams<{ id: string }>();
-  const searchParams = useSearchParams();
-  const isSuccess = searchParams.get("success") === "true";
-  const { getOrderById } = useOrders();
-  const order = getOrderById(params.id);
-  const successImage = PlaceHolderImages.find(
-    (img) => img.id === "checkout-success",
-  );
+export default async function OrderDetailPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ success?: string }>;
+}) {
+  const [{ id }, query, session] = await Promise.all([
+    params,
+    searchParams,
+    getServerSession(authOptions),
+  ]);
+  const userId = (session?.user as any)?.id;
+
+  if (!userId) {
+    notFound();
+  }
+
+  const order = await getOrderByIdForUser({
+    id,
+    userId,
+    isAdmin: (session?.user as any)?.role === "admin",
+  });
 
   if (!order) {
-    return notFound();
+    notFound();
   }
+
+  const isSuccess = query.success === "true";
 
   return (
     <div className="bg-secondary/50 min-h-full py-12">
@@ -39,10 +55,10 @@ export default function OrderDetailPage() {
             <CardHeader className="text-center items-center p-8 bg-green-50 rounded-t-lg">
               <CheckCircle2 className="w-16 h-16 text-green-600 mb-4" />
               <CardTitle className="font-headline text-3xl text-green-800">
-                Cảm ơn bạn đã đặt hàng!
+                Thank you for your order
               </CardTitle>
               <p className="text-muted-foreground mt-2">
-                Đơn hàng của bạn đã được nhận và đang được xử lý.
+                Your order has been received and is being processed.
               </p>
             </CardHeader>
           )}
@@ -51,29 +67,29 @@ export default function OrderDetailPage() {
             <div className="grid md:grid-cols-2 gap-8">
               <div>
                 <h3 className="font-semibold text-lg mb-4">
-                  Mã đơn hàng:{" "}
+                  Order ID:{" "}
                   <span className="font-mono text-primary">{order.id}</span>
                 </h3>
                 <div className="space-y-2 text-sm text-muted-foreground">
                   <p>
-                    <strong>Ngày đặt:</strong>{" "}
+                    <strong>Date:</strong>{" "}
                     {new Date(order.createdAt).toLocaleDateString("vi-VN")}
                   </p>
                   <p>
-                    <strong>Tổng cộng:</strong>{" "}
+                    <strong>Total:</strong>{" "}
                     <span className="font-semibold text-foreground">
                       {formatPrice(order.total)}
                     </span>
                   </p>
                   <p>
-                    <strong>Trạng thái:</strong>{" "}
+                    <strong>Status:</strong>{" "}
                     <span className="capitalize">{order.status}</span>
                   </p>
                 </div>
               </div>
               <div>
                 <h3 className="font-semibold text-lg mb-4">
-                  Thông tin giao hàng
+                  Shipping information
                 </h3>
                 <div className="space-y-1 text-sm text-muted-foreground">
                   <p>{order.customer.name}</p>
@@ -85,7 +101,7 @@ export default function OrderDetailPage() {
 
             <Separator className="my-8" />
 
-            <h3 className="font-semibold text-lg mb-4">Chi tiết đơn hàng</h3>
+            <h3 className="font-semibold text-lg mb-4">Order details</h3>
             <ul className="divide-y divide-border">
               {order.items.map((item) => (
                 <li key={item.id} className="flex py-4">
@@ -109,7 +125,7 @@ export default function OrderDetailPage() {
                       {item.scent.name}
                     </p>
                     <p className="mt-1 text-xs text-muted-foreground">
-                      Số lượng: {item.quantity}
+                      Quantity: {item.quantity}
                     </p>
                   </div>
                 </li>
@@ -118,7 +134,7 @@ export default function OrderDetailPage() {
           </CardContent>
           <CardFooter className="flex justify-center p-6 bg-secondary/30 rounded-b-lg">
             <Button asChild variant="outline">
-              <Link href="/san-pham">Tiếp tục mua sắm</Link>
+              <Link href="/san-pham">Continue shopping</Link>
             </Button>
           </CardFooter>
         </Card>

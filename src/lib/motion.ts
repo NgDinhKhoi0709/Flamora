@@ -10,8 +10,8 @@ export const motion = {
     hero: 800,
   },
   easing: {
-    soft: "easeInOut", // main, compatible with framer-motion
-    linear: "linear", // for shimmer
+    soft: "easeInOut" as const, // main, compatible with framer-motion
+    linear: "linear" as const, // for shimmer
     entrance: [0.25, 0.1, 0.25, 1] as const, // smooth cubic bezier for scroll reveals
     bouncy: [0.68, -0.55, 0.265, 1.55] as const,
   },
