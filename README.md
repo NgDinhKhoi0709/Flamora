@@ -1,6 +1,8 @@
 # Flamora Atelier
 
-Flamora Atelier is a Next.js e-commerce website for a fictional scented wax and candle brand. The project includes a storefront, product browsing, cart and checkout flows, authentication, order persistence, and an admin-only scent narrative generator.
+Flamora Atelier is a personal vibe coding project built as a Next.js e-commerce website for a fictional scented wax and candle brand. The project is used to practice fast product-building workflows, experiment with modern interface ideas, and explore how frontend, authentication, database persistence, and AI-assisted features can work together in a complete web application.
+
+The application includes a storefront, product browsing, cart and checkout flows, authentication, order persistence, and an admin-only scent narrative generator.
 
 ## Preview
 
